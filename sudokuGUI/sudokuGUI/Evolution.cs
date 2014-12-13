@@ -19,6 +19,38 @@ namespace sudokuGUI
             natur = new Natur();
             setGrundSudoku(sud);
             erstePoblation();
+            rechnenFitnessSudoku(poblation[0]);
+            //Console.WriteLine(fitn.fitnessArray());
+            Console.ReadLine();
+        }
+
+        public void rechnenFitnessSudoku(Sudoku sudFit)
+        {
+            int fitTotalChrom = 0;
+            int fitTotSubMat = 0;
+
+            foreach(int[] a in  sudFit.listSudoku)
+            {
+                int fc = fitn.fitnessArray(a);
+                fitTotalChrom += fc;
+                Console.Write(fc);
+            }
+
+            Console.WriteLine();
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    int fs = fitn.fitnessSubMat(sudFit.listSudoku, i, j);
+                    fitTotSubMat += fs;
+                    Console.WriteLine("Fitness subMat " + i + ","+j + " : " + fs);
+                }
+            }
+            Console.WriteLine("Fitn tot chr : " + fitTotalChrom);
+            Console.WriteLine("Fitn tot sub ma : " + fitTotSubMat);
+            Console.WriteLine("Fitn tot sudoku : " + (fitTotalChrom + fitTotalChrom));
+
         }
 
         public void setGrundSudoku(String sud)

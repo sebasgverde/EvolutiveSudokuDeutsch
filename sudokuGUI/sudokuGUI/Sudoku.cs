@@ -5,7 +5,7 @@ using System.Text;
 
 namespace sudokuGUI
 {
-    class Sudoku
+    public class Sudoku
     {
         private const int GROESS = 9;
 
