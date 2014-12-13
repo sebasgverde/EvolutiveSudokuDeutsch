@@ -5,9 +5,10 @@ using System.Text;
 
 namespace sudokuGUI
 {
-    class Evolution
+    public class Evolution
     {
         List<Sudoku> poblation;
+        Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
 
@@ -16,14 +17,17 @@ namespace sudokuGUI
             poblation = new List<Sudoku>();
             fitn = new Fitness();
             natur = new Natur();
-            erstePoblation(sud);
+            setGrundSudoku(sud);
+            erstePoblation();
         }
 
-        public void erstePoblation(String sud)
+        public void setGrundSudoku(String sud)
         {
             int [,] matSud = new int[9,9];
 
             string[] array = sud.Replace("\r\n", "\n").Split('\n');
+            Console.WriteLine(sud);
+            //Console.Read();
             for (int i = 0; i < array.Length; i++)
             {
                 for (int j = 0; j < 9; j++)
@@ -34,8 +38,20 @@ namespace sudokuGUI
                         natur.matFest[i, j] = 1;
                 }
             }
+            grundSudoku = new Sudoku(matSud);
+            Console.WriteLine(grundSudoku.sudToString());
+        }
 
-            poblation.Add(new Sudoku(matSud));
+        public void erstePoblation()
+        { 
+            Sudoku temp = new Sudoku();
+
+            for (int j = 0; j < grundSudoku.listSudoku.Count; j++)
+                temp.listSudoku.Add(natur.mutationRandom(grundSudoku.listSudoku[j],j));
+
+            Console.WriteLine(temp.sudToString());
+
+            poblation.Add(temp);           
         }
 
     }

@@ -6,12 +6,12 @@ using sudokuGUI;
 
 namespace sudokuConsole
 {
-    class Sudoku
+    class SudokuAlt
     {
         int[] numbers;
         Random rand;
 
-        public Sudoku()
+        public SudokuAlt()
         {
             numbers = new int[9];
             rand = new Random();

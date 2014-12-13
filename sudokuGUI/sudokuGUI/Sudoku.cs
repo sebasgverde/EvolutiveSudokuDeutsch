@@ -12,12 +12,16 @@ namespace sudokuGUI
         //public int[,] matrixSudoku;        
         public List<int[]> listSudoku;
 
+        public Sudoku()
+        {
+            listSudoku = new List<int[]>();
+        }
+
         public Sudoku(int[,] mat)
         { 
             //matrixSudoku = new int [GROESS, GROESS];
             listSudoku = new List<int[]>();
             setList(mat);
-
         }
 
         public void setList(int[,] mat)
@@ -37,6 +41,27 @@ namespace sudokuGUI
         {
             listSudoku[i] = n;
         }
+
+        public String chromoToString(int[] a)
+        {
+            String b = "";
+            for (int i = 0; i < a.Length; i++)
+            {
+                b += a[i] + "  ";
+            }
+            return b;
+        }
+
+        public String sudToString()
+        {
+            String b = "";
+            for (int i = 0; i < listSudoku.Count; i++)
+            {
+                b += chromoToString(listSudoku[i]) + "\n";
+            }
+            return b;
+        }
+
         /*public int[,] getMatSud()
         {
             return matrixSudoku;

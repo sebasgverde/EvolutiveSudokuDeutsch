@@ -18,6 +18,7 @@ namespace sudokuGUI
             matFest = new int[GROESS, GROESS];
         }
 
+
         public int[] randomVariationVector()
         {
             int[] rv = new int[9];
@@ -26,6 +27,17 @@ namespace sudokuGUI
                 rv[i] = rand.Next(-2, 2);
             }
             return rv;
+        }
+
+        //j is der position in matrix feste
+        public int[] mutationRandom(int[] a, int j)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                if(matFest[j,i] != 1)
+                    a[i] = rand.Next(1,9);
+            }
+            return a;
         }
 
         public int[] mutation(int[] a, int[] b)
