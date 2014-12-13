@@ -40,6 +40,14 @@ namespace sudokuGUI
             return a;
         }
 
+        public void mutationRandom2(int[] a, int j)
+        {
+            int pos = rand.Next(0, 8);
+
+            if (matFest[j, pos] != 1)
+                a[pos] = rand.Next(1, 9);
+        }
+
         public int[] mutation(int[] a, int[] b)
         {
             for (int i = 0; i < 9; i++)

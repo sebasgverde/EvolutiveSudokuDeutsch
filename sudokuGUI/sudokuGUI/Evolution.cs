@@ -7,24 +7,36 @@ namespace sudokuGUI
 {
     public class Evolution
     {
-        List<Sudoku> poblation;
+        List<Sudoku> population;
         Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
 
         public Evolution(String sud)
         {
-            poblation = new List<Sudoku>();
+            population = new List<Sudoku>();
             fitn = new Fitness();
             natur = new Natur();
             setGrundSudoku(sud);
+
+            int aktuelFit = 0;
+
             erstePoblation();
-            rechnenFitnessSudoku(poblation[0]);
-            //Console.WriteLine(fitn.fitnessArray());
+            aktuelFit = rechnenFitnessSudoku(population[0]);
+
+            int i = 1;
+            while(aktuelFit < 103) 
+            {
+                Console.WriteLine("\nmutation nummer " + i++);
+                teilMutation(0);
+                Console.WriteLine(population[0].sudToString());
+                aktuelFit = rechnenFitnessSudoku(population[0]);
+                //Console.WriteLine(fitn.fitnessArray());            
+            } 
             Console.ReadLine();
         }
 
-        public void rechnenFitnessSudoku(Sudoku sudFit)
+        public int rechnenFitnessSudoku(Sudoku sudFit)
         {
             int fitTotalChrom = 0;
             int fitTotSubMat = 0;
@@ -49,7 +61,9 @@ namespace sudokuGUI
             }
             Console.WriteLine("Fitn tot chr : " + fitTotalChrom);
             Console.WriteLine("Fitn tot sub ma : " + fitTotSubMat);
-            Console.WriteLine("Fitn tot sudoku : " + (fitTotalChrom + fitTotalChrom));
+            int totalFitness = fitTotalChrom + fitTotalChrom;
+            Console.WriteLine("Fitn tot sudoku : " + (totalFitness));
+            return totalFitness;
 
         }
 
@@ -83,7 +97,19 @@ namespace sudokuGUI
 
             Console.WriteLine(temp.sudToString());
 
-            poblation.Add(temp);           
+            population.Add(temp);           
+        }
+
+        //i pos in population, welche sudoku will ich andern
+        public void teilMutation(int i)
+        {
+            int j = 0;
+            foreach (int[] a in population[i].listSudoku)
+            {
+                //population[i].setChromosom(j, 
+                natur.mutationRandom2(a, j);
+                j++;
+            }
         }
 
     }
