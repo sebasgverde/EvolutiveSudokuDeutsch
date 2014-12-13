@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using sudokuGUI;
 
 namespace sudokuConsole
 {
@@ -83,6 +84,25 @@ namespace sudokuConsole
             }
 
             return fitness;   
+        }
+
+        public int fitnessSubMat(int[] mat, int i, int j)
+        {
+            int[] numbers = new int[9];
+            int fitness = 0;
+            for (int k = 0; k < numbers.Length; k++)
+            {
+                int aktuell = mat[i * 27 + j * 3 + k * 9];
+                if (aktuell > 0 && aktuell < 10)
+                    numbers[aktuell] = 1;
+            }
+            for (int k = 0; k < numbers.Length; k++)
+            {
+                if (numbers[k] == 1)
+                    fitness += 1;
+            }
+
+            return fitness;
         }
     }
 }
