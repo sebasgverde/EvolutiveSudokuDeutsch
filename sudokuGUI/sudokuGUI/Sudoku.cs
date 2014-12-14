@@ -12,6 +12,7 @@ namespace sudokuGUI
         //public int[,] matrixSudoku;        
         public List<int[]> listSudoku;
         public String[] sudokuStr;
+        public int fitness;
 
         public Sudoku()
         {

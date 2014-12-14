@@ -11,6 +11,7 @@ namespace sudokuGUI
         Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
+        int populationSize = 4;
 
         public Evolution(String sud)
         {
@@ -21,18 +22,25 @@ namespace sudokuGUI
 
             int aktuelFit = 0;
 
-            erstePoblation();
-            aktuelFit = rechnenFitnessSudoku(population[0]);
+            erstePoblation(populationSize);
 
             int i = 1;
-            while(aktuelFit < 140) 
+            while(aktuelFit < 125) 
             {
-                Console.WriteLine("\nmutation nummer " + i++);
+                int posSel = selektion();
+
+                Console.WriteLine("\nMutation nummer " + i++);
                 //erstePoblation();
-                teilMutationSwap(0);
+                teilMutationSwap(posSel);
                 //teilMutation(0);
-                Console.WriteLine(population[0].sudToString());
-                aktuelFit = rechnenFitnessSudoku(population[0]);
+                Sudoku temp = population[posSel];
+                Console.WriteLine(temp.sudToString());
+                aktuelFit = rechnenFitnessSudoku(temp);
+                temp.fitness = aktuelFit;
+
+                population.RemoveAt(posSel);
+                einfugenInviduum(temp);
+
                 //Console.WriteLine(fitn.fitnessArray());            
             } 
             Console.ReadLine();
@@ -100,18 +108,35 @@ namespace sudokuGUI
             Console.WriteLine(grundSudoku.sudToString());
         }*/
 
+        public void einfugenInviduum(Sudoku sud)
+        {
+            int i = 0;
+            while (i < population.Count && sud.fitness < population[i].fitness)
+                i++;
+
+            population.Insert(i, sud);
+        }
+
         //diese habe ich aun verandert, weil ich habe bemerkt, dass es sinnlos ist alle random machen,
         //wir wissen, dass es nur 9 nummer gibt, deshalb, die erste population musste nur das haben, und mutation
         //und recombination muestte nur fue die Reihenfolge sein
-        public void erstePoblation()
+        public void erstePoblation(int size)
         {
-            //String[] temp = new String[9];
-            Sudoku temp = new Sudoku();
+            for(int i = 0; i < size; i++)
+            {
+                //String[] temp = new String[9];
+                Sudoku temp = new Sudoku();
 
-            for (int j = 0; j < grundSudoku.sudokuStr.Length; j++)
-                temp.setChromStr(j, natur.fuellenChromosomRand(grundSudoku.sudokuStr[j]));            
+                for (int j = 0; j < grundSudoku.sudokuStr.Length; j++)
+                    temp.setChromStr(j, natur.fuellenChromosomRand(grundSudoku.sudokuStr[j]));            
 
-            population.Add(temp);
+                temp.fitness = rechnenFitnessSudoku(temp);
+
+                if (i == 0)
+                    population.Add(temp);
+                else
+                    einfugenInviduum(temp);
+            }
         }
 
         //i pos in population, welche sudoku will ich andern
@@ -124,6 +149,12 @@ namespace sudokuGUI
                 population[i].setChromStr(j,natur.mutationSwap(j, a));
                 j++;
             }
+        }
+
+        //gebt die Position von die beste sudoku
+        public int selektion()
+        {
+            return 0;
         }
 
         /*public void erstePoblation()
