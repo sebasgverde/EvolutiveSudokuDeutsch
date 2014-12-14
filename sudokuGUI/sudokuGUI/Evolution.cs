@@ -17,7 +17,7 @@ namespace sudokuGUI
             population = new List<Sudoku>();
             fitn = new Fitness();
             natur = new Natur();
-            setGrundSudoku(sud);
+            serGrundSudStr(sud);
 
             int aktuelFit = 0;
 
@@ -25,10 +25,11 @@ namespace sudokuGUI
             aktuelFit = rechnenFitnessSudoku(population[0]);
 
             int i = 1;
-            while(aktuelFit < 103) 
+            while(aktuelFit < 105 && i< 10) 
             {
                 Console.WriteLine("\nmutation nummer " + i++);
-                teilMutation(0);
+                erstePoblation();
+                //teilMutation(0);
                 Console.WriteLine(population[0].sudToString());
                 aktuelFit = rechnenFitnessSudoku(population[0]);
                 //Console.WriteLine(fitn.fitnessArray());            
@@ -41,9 +42,10 @@ namespace sudokuGUI
             int fitTotalChrom = 0;
             int fitTotSubMat = 0;
 
-            foreach(int[] a in  sudFit.listSudoku)
+
+            for (int i = 0; i < sudFit.sudokuStr.Length; i++)
             {
-                int fc = fitn.fitnessArray(a);
+                int fc = fitn.fitnessSaule(i,sudFit.sudokuStr);
                 fitTotalChrom += fc;
                 Console.Write(fc);
             }
@@ -54,7 +56,7 @@ namespace sudokuGUI
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    int fs = fitn.fitnessSubMat(sudFit.listSudoku, i, j);
+                    int fs = fitn.fitnessSubMat(sudFit.sudokuStr, i, j);
                     fitTotSubMat += fs;
                     Console.WriteLine("Fitness subMat " + i + ","+j + " : " + fs);
                 }
@@ -67,7 +69,16 @@ namespace sudokuGUI
 
         }
 
-        public void setGrundSudoku(String sud)
+        public void serGrundSudStr(String sud)
+        {
+            string[] array = sud.Replace("\r\n", "\n").Split('\n');
+            //es ist besser in natur nur fragen ob es nicht null ist, das ist weniger rechnung
+            natur.matFest = array;
+            grundSudoku = new Sudoku(array);
+
+        }
+
+        /*public void setGrundSudoku(String sud)
         {
             int [,] matSud = new int[9,9];
 
@@ -86,9 +97,25 @@ namespace sudokuGUI
             }
             grundSudoku = new Sudoku(matSud);
             Console.WriteLine(grundSudoku.sudToString());
+        }*/
+
+        //diese habe ich aun verandert, weil ich habe bemerkt, dass es sinnlos ist alle random machen,
+        //wir wissen, dass es nur 9 nummer gibt, deshalb, die erste population musste nur das haben, und mutation
+        //und recombination muestte nur fue die Reihenfolge sein
+        public void erstePoblation()
+        {
+            //String[] temp = new String[9];
+            Sudoku temp = new Sudoku();
+
+            for (int j = 0; j < grundSudoku.sudokuStr.Length; j++)
+                temp.setChromStr(j, natur.fuellenChromosomRand(grundSudoku.sudokuStr[j]));
+
+            Console.WriteLine(temp.sudToString());
+
+            population.Add(temp);
         }
 
-        public void erstePoblation()
+        /*public void erstePoblation()
         { 
             Sudoku temp = new Sudoku();
 
@@ -98,7 +125,7 @@ namespace sudokuGUI
             Console.WriteLine(temp.sudToString());
 
             population.Add(temp);           
-        }
+        }*/
 
         //i pos in population, welche sudoku will ich andern
         public void teilMutation(int i)

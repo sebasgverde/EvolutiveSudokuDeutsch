@@ -11,17 +11,22 @@ namespace sudokuGUI
 
         //public int[,] matrixSudoku;        
         public List<int[]> listSudoku;
+        public String[] sudokuStr;
 
         public Sudoku()
         {
-            listSudoku = new List<int[]>();
+            sudokuStr = new String[9];
         }
 
-        public Sudoku(int[,] mat)
+        public Sudoku(String[] s)
         { 
             //matrixSudoku = new int [GROESS, GROESS];
-            listSudoku = new List<int[]>();
-            setList(mat);
+            sudokuStr = s;
+        }
+
+        public void setStr(String[] s)
+        {
+            sudokuStr = s;
         }
 
         public void setList(int[,] mat)
@@ -35,6 +40,11 @@ namespace sudokuGUI
                 }
                 listSudoku.Add(temp);
             }
+        }
+
+        public void setChromStr(int i, String a)
+        {
+            sudokuStr[i] = a;
         }
 
         public void setChromosom(int i, int[] n)
@@ -55,9 +65,9 @@ namespace sudokuGUI
         public String sudToString()
         {
             String b = "";
-            for (int i = 0; i < listSudoku.Count; i++)
+            for (int i = 0; i < sudokuStr.Length; i++)
             {
-                b += chromoToString(listSudoku[i]) + "\n";
+                b += sudokuStr[i] + "\n";
             }
             return b;
         }
