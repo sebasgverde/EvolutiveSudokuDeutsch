@@ -25,21 +25,24 @@ namespace sudokuGUI
             erstePoblation(populationSize);
 
             int i = 1;
-            while(aktuelFit < 125) 
+            while(aktuelFit < 125 && i<15) 
             {
+                /*mutation mit selektion von beste
                 int posSel = selektion();
 
                 Console.WriteLine("\nMutation nummer " + i++);
                 //erstePoblation();
                 teilMutationSwap(posSel);
                 //teilMutation(0);
-                Sudoku temp = population[posSel];
-                Console.WriteLine(temp.sudToString());
-                aktuelFit = rechnenFitnessSudoku(temp);
-                temp.fitness = aktuelFit;
+                aktuelFit = population[0].fitness;*/
 
-                population.RemoveAt(posSel);
-                einfugenInviduum(temp);
+                //recombination von 2 beste
+
+                Console.WriteLine("\nRekombination nummer " + i++);
+                int[] positions = selektionRekombination();
+
+                einfachRekombination(positions[0], positions[1]);
+                aktuelFit = population[0].fitness;
 
                 //Console.WriteLine(fitn.fitnessArray());            
             } 
@@ -149,12 +152,34 @@ namespace sudokuGUI
                 population[i].setChromStr(j,natur.mutationSwap(j, a));
                 j++;
             }
+
+            Sudoku temp = population[i];
+            Console.WriteLine(temp.sudToString());
+            temp.fitness = rechnenFitnessSudoku(temp); ;
+
+            population.RemoveAt(i);
+            einfugenInviduum(temp);
+        }
+
+        public void einfachRekombination(int i, int j)
+        {
+            Sudoku[] kinder = natur.rekombination1(population[i], population[j]);
+            kinder[0].fitness = rechnenFitnessSudoku(kinder[0]);
+            kinder[1].fitness = rechnenFitnessSudoku(kinder[1]);
+
+            einfugenInviduum(kinder[0]);
+            einfugenInviduum(kinder[1]);
         }
 
         //gebt die Position von die beste sudoku
         public int selektion()
         {
             return 0;
+        }
+
+        public int[] selektionRekombination()
+        {
+            return new int[] {0,1};
         }
 
         /*public void erstePoblation()

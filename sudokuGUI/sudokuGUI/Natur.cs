@@ -79,6 +79,32 @@ namespace sudokuGUI
         }
 
 
+        public Sudoku[] rekombination1(Sudoku a, Sudoku b)
+        {
+            Sudoku kindA = new Sudoku(), kindB = new Sudoku();
+
+            int punkt = rand.Next(1,7);//ich will kein 0 oder 8, dass wäre nutzlos
+
+            for (int i = 0; i < punkt; i++)
+            {
+                kindA.setChromStr(i, a.sudokuStr[i]);
+                kindB.setChromStr(i, b.sudokuStr[i]);
+            }
+            for (int i = punkt; i < GROESS; i++)
+            {
+                kindA.setChromStr(i, b.sudokuStr[i]);
+                kindB.setChromStr(i, a.sudokuStr[i]);
+            }
+
+           /* Console.WriteLine(a.sudToString());
+            Console.WriteLine(b.sudToString());
+            Console.WriteLine(kindA.sudToString());
+            Console.WriteLine(kindB.sudToString());*/
+
+            return new Sudoku[] { kindA, kindB };
+
+        }
+
 
         //---------------------------------------------------------------------------------------
         //alle diese vorgange waren für die Stratagie mit Liste von array, ausgeschlossen!!!
