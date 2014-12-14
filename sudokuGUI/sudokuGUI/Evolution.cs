@@ -25,13 +25,13 @@ namespace sudokuGUI
             aktuelFit = rechnenFitnessSudoku(population[0]);
 
             int i = 1;
-            while(aktuelFit < 105 && i< 10) 
+            while(aktuelFit < 120) 
             {
                 Console.WriteLine("\nmutation nummer " + i++);
                 erstePoblation();
                 //teilMutation(0);
-                Console.WriteLine(population[0].sudToString());
-                aktuelFit = rechnenFitnessSudoku(population[0]);
+                Console.WriteLine(population[i-1].sudToString());
+                aktuelFit = rechnenFitnessSudoku(population[i-1]);
                 //Console.WriteLine(fitn.fitnessArray());            
             } 
             Console.ReadLine();
@@ -108,9 +108,7 @@ namespace sudokuGUI
             Sudoku temp = new Sudoku();
 
             for (int j = 0; j < grundSudoku.sudokuStr.Length; j++)
-                temp.setChromStr(j, natur.fuellenChromosomRand(grundSudoku.sudokuStr[j]));
-
-            Console.WriteLine(temp.sudToString());
+                temp.setChromStr(j, natur.fuellenChromosomRand(grundSudoku.sudokuStr[j]));            
 
             population.Add(temp);
         }
