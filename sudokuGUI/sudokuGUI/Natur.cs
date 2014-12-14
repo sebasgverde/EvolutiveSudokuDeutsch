@@ -18,6 +18,7 @@ namespace sudokuGUI
             matFest = new String[GROESS];
         }
 
+        //Round robin für die Positionen in den Chromosomen
         public int nachstePos(int p)
         {
             if (p == 8)
@@ -56,6 +57,31 @@ namespace sudokuGUI
             return new String(temp);
         }
 
+        //es muss mindestens 2 lehre Plátze geben, sonst müstte Evolution diesen Vorgang nicht benutzen
+        public String mutationSwap(int i, String cr)
+        {
+            char[] temp = cr.ToCharArray();
+
+            int pos = rand.Next(0, 8);//geben sie mir ein rand position
+            int pos2 = rand.Next(0, 8);
+
+            while (matFest[i][pos] != '0' || pos2 == pos)
+                pos = nachstePos(pos);
+            while (matFest[i][pos2] != '0' || pos2 == pos)
+                pos2 = nachstePos(pos2);
+
+            char swap = temp[pos];
+            temp[pos] = temp[pos2];
+            temp[pos2] = swap;
+            
+
+            return new String(temp);
+        }
+
+
+
+        //---------------------------------------------------------------------------------------
+        //alle diese vorgange waren für die Stratagie mit Liste von array, ausgeschlossen!!!
         public int[] randomVariationVector()
         {
             int[] rv = new int[9];

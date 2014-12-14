@@ -25,13 +25,14 @@ namespace sudokuGUI
             aktuelFit = rechnenFitnessSudoku(population[0]);
 
             int i = 1;
-            while(aktuelFit < 120) 
+            while(aktuelFit < 140) 
             {
                 Console.WriteLine("\nmutation nummer " + i++);
-                erstePoblation();
+                //erstePoblation();
+                teilMutationSwap(0);
                 //teilMutation(0);
-                Console.WriteLine(population[i-1].sudToString());
-                aktuelFit = rechnenFitnessSudoku(population[i-1]);
+                Console.WriteLine(population[0].sudToString());
+                aktuelFit = rechnenFitnessSudoku(population[0]);
                 //Console.WriteLine(fitn.fitnessArray());            
             } 
             Console.ReadLine();
@@ -111,6 +112,18 @@ namespace sudokuGUI
                 temp.setChromStr(j, natur.fuellenChromosomRand(grundSudoku.sudokuStr[j]));            
 
             population.Add(temp);
+        }
+
+        //i pos in population, welche sudoku will ich andern
+        public void teilMutationSwap(int i)
+        {
+            int j = 0;
+            foreach (String a in population[i].sudokuStr)
+            {
+                //population[i].setChromosom(j, 
+                population[i].setChromStr(j,natur.mutationSwap(j, a));
+                j++;
+            }
         }
 
         /*public void erstePoblation()
