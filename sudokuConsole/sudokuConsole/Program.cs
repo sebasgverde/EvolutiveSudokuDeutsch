@@ -13,7 +13,7 @@ namespace sudokuConsole
            /* Sudoku sud = new Sudoku();
             sud.test();*/
 
-            String sud = "100007000\r\n001000000\r\n000000300\r\n000000000\r\n000400000\r\n000000000\r\n000000000\r\n000000000\r\n007000000";
+            String sud = "200406500\r\n003108700\r\n600009438\r\n500040300\r\n000371000\r\n008090004\r\n931200007\r\n004307200\r\n002905003";
             sudokuGUI.Evolution evo = new Evolution(sud);
         }
     }

@@ -40,8 +40,8 @@
             this.sudtxt.Name = "sudtxt";
             this.sudtxt.Size = new System.Drawing.Size(275, 181);
             this.sudtxt.TabIndex = 0;
-            this.sudtxt.Text = "000000000\r\n001000000\r\n000000300\r\n000000000\r\n000400000\r\n000000000\r\n000000000\r\n0000" +
-    "00000\r\n007000000";
+            this.sudtxt.Text = "200406500\r\n003108700\r\n600009438\r\n500040300\r\n000371000\r\n008090004\r\n931200007\r\n0043" +
+    "07200\r\n002905003";
             // 
             // RechnenBtn
             // 

@@ -8,44 +8,55 @@ namespace sudokuGUI
     public class Evolution
     {
         List<Sudoku> population;
+        int maxPopulation;
         Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
         int populationSize = 4;
+        bool print = false;
 
         public Evolution(String sud)
         {
             population = new List<Sudoku>();
+            maxPopulation = 20;
             fitn = new Fitness();
             natur = new Natur();
             serGrundSudStr(sud);
 
             int aktuelFit = 0;
+            int besteFit = 0;
 
             erstePoblation(populationSize);
 
             int i = 1;
-            while(aktuelFit < 125 && i<15) 
+            while(aktuelFit < 154 && i<1000000) 
             {
-                /*mutation mit selektion von beste
+               //mutation mit selektion von beste
                 int posSel = selektion();
 
-                Console.WriteLine("\nMutation nummer " + i++);
+                if(print)Console.WriteLine("\nMutation nummer " + i);
                 //erstePoblation();
                 teilMutationSwap(posSel);
+                //teilMutationSwapNueKind(posSel);
                 //teilMutation(0);
-                aktuelFit = population[0].fitness;*/
-
+                //aktuelFit = population[0].fitness;
+                if (population.Count >= maxPopulation) population.RemoveAt(population.Count - 1);
                 //recombination von 2 beste
 
-                Console.WriteLine("\nRekombination nummer " + i++);
+                if (print) Console.WriteLine("\nRekombination nummer " + i);
                 int[] positions = selektionRekombination();
 
                 einfachRekombination(positions[0], positions[1]);
                 aktuelFit = population[0].fitness;
+                if (aktuelFit > besteFit) besteFit = aktuelFit;
 
-                //Console.WriteLine(fitn.fitnessArray());            
-            } 
+                if (print) Console.WriteLine(population[0].sudToString());
+
+                if (population.Count > maxPopulation) population.RemoveAt(population.Count - 1);
+                //Console.WriteLine(fitn.fitnessArray());     
+                i++;
+            }
+            if(!print)Console.WriteLine(population[0].fitness);
             Console.ReadLine();
         }
 
@@ -59,10 +70,10 @@ namespace sudokuGUI
             {
                 int fc = fitn.fitnessSaule(i,sudFit.sudokuStr);
                 fitTotalChrom += fc;
-                Console.Write(fc);
+                if (print) Console.Write(fc);
             }
 
-            Console.WriteLine();
+            if (print) Console.WriteLine();
 
             for (int i = 0; i < 3; i++)
             {
@@ -70,13 +81,17 @@ namespace sudokuGUI
                 {
                     int fs = fitn.fitnessSubMat(sudFit.sudokuStr, i, j);
                     fitTotSubMat += fs;
-                    Console.WriteLine("Fitness subMat " + i + ","+j + " : " + fs);
+                    if (print) Console.WriteLine("Fitness subMat " + i + "," + j + " : " + fs);
                 }
             }
-            Console.WriteLine("Fitn tot chr : " + fitTotalChrom);
-            Console.WriteLine("Fitn tot sub ma : " + fitTotSubMat);
+
             int totalFitness = fitTotalChrom + fitTotalChrom;
-            Console.WriteLine("Fitn tot sudoku : " + (totalFitness));
+            if (print) 
+            {
+                Console.WriteLine("Fitn tot chr : " + fitTotalChrom);
+                Console.WriteLine("Fitn tot sub ma : " + fitTotSubMat);
+                Console.WriteLine("Fitn tot sudoku : " + (totalFitness));
+            }
             return totalFitness;
 
         }
@@ -154,10 +169,30 @@ namespace sudokuGUI
             }
 
             Sudoku temp = population[i];
-            Console.WriteLine(temp.sudToString());
+            if(print)Console.WriteLine(temp.sudToString());
             temp.fitness = rechnenFitnessSudoku(temp); ;
 
             population.RemoveAt(i);
+            einfugenInviduum(temp);
+        }
+
+        //Andere Strategie, die mutation gebt ein neues kind
+        public void teilMutationSwapNueKind(int i)
+        {
+            Sudoku temp = new Sudoku();
+
+            int j = 0;
+            foreach (String a in population[i].sudokuStr)
+            {
+                //population[i].setChromosom(j, 
+                temp.setChromStr(j, natur.mutationSwap(j, a));
+                j++;
+            }
+
+            if (print) Console.WriteLine(temp.sudToString());
+            temp.fitness = rechnenFitnessSudoku(temp); ;
+
+            population.RemoveAt(population.Count - 1);
             einfugenInviduum(temp);
         }
 
