@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace sudokuGUI
+namespace Modell
 {
     public class Evolution
     {
@@ -18,7 +18,7 @@ namespace sudokuGUI
         public Evolution(String sud)
         {
             population = new List<Sudoku>();
-            maxPopulation = 20;
+            maxPopulation = 50;
             fitn = new Fitness();
             natur = new Natur();
             serGrundSudStr(sud);
@@ -29,7 +29,7 @@ namespace sudokuGUI
             erstePoblation(populationSize);
 
             int i = 1;
-            while(aktuelFit < 154 && i<1000000) 
+            while(aktuelFit < 150 && i<1000000) 
             {
                //mutation mit selektion von beste
                 int posSel = selektion();
@@ -60,7 +60,17 @@ namespace sudokuGUI
             Console.ReadLine();
         }
 
-        public int rechnenFitnessSudoku(Sudoku sudFit)
+        public void schauFitness(Sudoku sud)
+        {
+           // if (print) Console.Write(fc);
+            //if (print) Console.WriteLine("Fitness subMat " + i + "," + j + " : " + fs);
+
+            Console.WriteLine("Fitn tot chr : " + sud.fitnessChrom);
+            Console.WriteLine("Fitn tot sub ma : " + sud.fitnessSubMat);
+            Console.WriteLine("Fitn tot sudoku : " + (sud.fitness));
+        }
+
+        public void rechnenFitnessSudoku(Sudoku sudFit)
         {
             int fitTotalChrom = 0;
             int fitTotSubMat = 0;
@@ -70,7 +80,7 @@ namespace sudokuGUI
             {
                 int fc = fitn.fitnessSaule(i,sudFit.sudokuStr);
                 fitTotalChrom += fc;
-                if (print) Console.Write(fc);
+                sudFit.fitnessChrom[i] = fc;
             }
 
             if (print) Console.WriteLine();
@@ -81,19 +91,15 @@ namespace sudokuGUI
                 {
                     int fs = fitn.fitnessSubMat(sudFit.sudokuStr, i, j);
                     fitTotSubMat += fs;
-                    if (print) Console.WriteLine("Fitness subMat " + i + "," + j + " : " + fs);
+                    sudFit.fitnessSubMat[i,j] = fs;
                 }
             }
 
-            int totalFitness = fitTotalChrom + fitTotalChrom;
-            if (print) 
-            {
-                Console.WriteLine("Fitn tot chr : " + fitTotalChrom);
-                Console.WriteLine("Fitn tot sub ma : " + fitTotSubMat);
-                Console.WriteLine("Fitn tot sudoku : " + (totalFitness));
-            }
-            return totalFitness;
+            sudFit.fitTotChr = fitTotalChrom;
+            sudFit.fitTotSub = fitTotalChrom;
+            sudFit.fitness = fitTotalChrom + fitTotalChrom;
 
+            if (print) schauFitness(sudFit);
         }
 
         public void serGrundSudStr(String sud)
@@ -104,27 +110,6 @@ namespace sudokuGUI
             grundSudoku = new Sudoku(array);
 
         }
-
-        /*public void setGrundSudoku(String sud)
-        {
-            int [,] matSud = new int[9,9];
-
-            string[] array = sud.Replace("\r\n", "\n").Split('\n');
-            Console.WriteLine(sud);
-            //Console.Read();
-            for (int i = 0; i < array.Length; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    int aktuell = Convert.ToByte(array[i][j]) - 48;
-                    matSud[i, j] = aktuell;
-                    if (aktuell != 0)
-                        natur.matFest[i, j] = 1;
-                }
-            }
-            grundSudoku = new Sudoku(matSud);
-            Console.WriteLine(grundSudoku.sudToString());
-        }*/
 
         public void einfugenInviduum(Sudoku sud)
         {
@@ -148,7 +133,7 @@ namespace sudokuGUI
                 for (int j = 0; j < grundSudoku.sudokuStr.Length; j++)
                     temp.setChromStr(j, natur.fuellenChromosomRand(grundSudoku.sudokuStr[j]));            
 
-                temp.fitness = rechnenFitnessSudoku(temp);
+                rechnenFitnessSudoku(temp);
 
                 if (i == 0)
                     population.Add(temp);
@@ -170,7 +155,7 @@ namespace sudokuGUI
 
             Sudoku temp = population[i];
             if(print)Console.WriteLine(temp.sudToString());
-            temp.fitness = rechnenFitnessSudoku(temp); ;
+            rechnenFitnessSudoku(temp); ;
 
             population.RemoveAt(i);
             einfugenInviduum(temp);
@@ -190,7 +175,7 @@ namespace sudokuGUI
             }
 
             if (print) Console.WriteLine(temp.sudToString());
-            temp.fitness = rechnenFitnessSudoku(temp); ;
+            rechnenFitnessSudoku(temp); ;
 
             population.RemoveAt(population.Count - 1);
             einfugenInviduum(temp);
@@ -199,8 +184,8 @@ namespace sudokuGUI
         public void einfachRekombination(int i, int j)
         {
             Sudoku[] kinder = natur.rekombination1(population[i], population[j]);
-            kinder[0].fitness = rechnenFitnessSudoku(kinder[0]);
-            kinder[1].fitness = rechnenFitnessSudoku(kinder[1]);
+            rechnenFitnessSudoku(kinder[0]);
+            rechnenFitnessSudoku(kinder[1]);
 
             einfugenInviduum(kinder[0]);
             einfugenInviduum(kinder[1]);
@@ -214,20 +199,9 @@ namespace sudokuGUI
 
         public int[] selektionRekombination()
         {
-            return new int[] {0,1};
+            //return new int[] {natur.randomPos(population.Count),0};
+            return new int[] { 0, natur.RouletteSelektion(population)};
         }
-
-        /*public void erstePoblation()
-        { 
-            Sudoku temp = new Sudoku();
-
-            for (int j = 0; j < grundSudoku.listSudoku.Count; j++)
-                temp.listSudoku.Add(natur.mutationRandom(grundSudoku.listSudoku[j],j));
-
-            Console.WriteLine(temp.sudToString());
-
-            population.Add(temp);           
-        }*/
 
         //i pos in population, welche sudoku will ich andern
         public void teilMutation(int i)

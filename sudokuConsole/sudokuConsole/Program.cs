@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using sudokuGUI;
+using Modell;
 
 namespace sudokuConsole
 {
@@ -14,7 +14,7 @@ namespace sudokuConsole
             sud.test();*/
 
             String sud = "200406500\r\n003108700\r\n600009438\r\n500040300\r\n000371000\r\n008090004\r\n931200007\r\n004307200\r\n002905003";
-            sudokuGUI.Evolution evo = new Evolution(sud);
+            Modell.Evolution evo = new Evolution(sud);
         }
     }
 }

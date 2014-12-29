@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace sudokuGUI
+namespace Modell
 {
     class Natur
     {
@@ -11,11 +11,46 @@ namespace sudokuGUI
 
         public String[] matFest;
         Random rand;
+        public int populationTotalFitnes;
 
         public Natur()
         {
             rand = new Random();
             matFest = new String[GROESS];
+        }
+
+        public void populationTotalFitnessRechnen(List<Sudoku> population)
+        { 
+            populationTotalFitnes = 0;
+            foreach (Sudoku su in population)
+                populationTotalFitnes += su.fitness;
+        }
+
+        public void gluckRadSektorGrossRechnen(List<Sudoku> population)
+        {
+            population[0].gluckRadSektorGross = (float)population[0].fitness / populationTotalFitnes;
+             
+
+            for (int i = 1; i < population.Count; i++)
+                population[i].gluckRadSektorGross = ((float)population[i].fitness / populationTotalFitnes) + population[i-1].gluckRadSektorGross;
+        }
+
+        public int RouletteSelektion(List<Sudoku> population)
+        {
+            populationTotalFitnessRechnen(population);
+            gluckRadSektorGrossRechnen(population);
+
+            float r = (float)rand.NextDouble();
+
+            int i = 0;
+            while (population[i].gluckRadSektorGross < r) i++;
+
+            return i;
+        }
+
+        public int randomPos(int grossPopulation)
+        {
+            return rand.Next(0, grossPopulation - 1);
         }
 
         //Round robin für die Positionen in den Chromosomen

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace sudokuGUI
+namespace Modell
 {
     /*diese muss auch andern. Wir haben in jeder Chromosom alle Zahle von 1 bis 9, deshalb seines Fitness
  ist immer 9. Interessant für uns ist das Fitness von die Säule und sub matrix*/

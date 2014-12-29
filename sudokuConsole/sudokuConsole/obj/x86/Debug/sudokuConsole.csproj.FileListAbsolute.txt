@@ -8,5 +8,5 @@ D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung
 D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung\sudoku\sudokuConsole\sudokuConsole\obj\x86\Debug\sudokuConsole.csprojResolveAssemblyReference.cache
 D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung\sudoku\sudokuConsole\sudokuConsole\bin\Debug\sudokuConsole.exe
 D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung\sudoku\sudokuConsole\sudokuConsole\bin\Debug\sudokuConsole.pdb
-D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung\sudoku\sudokuConsole\sudokuConsole\bin\Debug\sudokuGUI.exe
-D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung\sudoku\sudokuConsole\sudokuConsole\bin\Debug\sudokuGUI.pdb
+D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung\sudoku\sudokuConsole\sudokuConsole\bin\Debug\Modell.dll
+D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung\sudoku\sudokuConsole\sudokuConsole\bin\Debug\Modell.pdb

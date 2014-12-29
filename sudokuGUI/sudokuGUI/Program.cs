@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
+using Modell;
+
 namespace sudokuGUI
 {
     static class Program

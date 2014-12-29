@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace sudokuGUI
+namespace Modell
 {
     public class Sudoku
     {
@@ -13,10 +13,17 @@ namespace sudokuGUI
         public List<int[]> listSudoku;
         public String[] sudokuStr;
         public int fitness;
+        public int fitTotChr;
+        public int fitTotSub;
+        public int[] fitnessChrom;
+        public int[,] fitnessSubMat;
+        public float gluckRadSektorGross;
 
         public Sudoku()
         {
             sudokuStr = new String[9];
+            fitnessChrom = new int[9];
+            fitnessSubMat = new int[3, 3];
         }
 
         public Sudoku(String[] s)
