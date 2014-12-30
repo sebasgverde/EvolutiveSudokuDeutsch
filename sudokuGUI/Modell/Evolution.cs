@@ -12,16 +12,17 @@ namespace Modell
         Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
-        int populationSize = 4;
+        int populationSize = 7;
+        int elite = 5;
         bool print = false;
 
         public Evolution(String sud)
         {
             population = new List<Sudoku>();
-            maxPopulation = 50;
+            maxPopulation = 30;
             fitn = new Fitness();
             natur = new Natur();
-            serGrundSudStr(sud);
+            serGrundSudStr(sud);            
 
             int aktuelFit = 0;
             int besteFit = 0;
@@ -29,18 +30,19 @@ namespace Modell
             erstePoblation(populationSize);
 
             int i = 1;
-            while(aktuelFit < 150 && i<1000000) 
+            while(aktuelFit < 157 && i<1000000) 
             {
                //mutation mit selektion von beste
                 int posSel = selektion();
 
                 if(print)Console.WriteLine("\nMutation nummer " + i);
                 //erstePoblation();
-                teilMutationSwap(posSel);
+                //teilMutationSwap(posSel);
                 //teilMutationSwapNueKind(posSel);
+                kleinerMutationSwap(posSel);
                 //teilMutation(0);
                 //aktuelFit = population[0].fitness;
-                if (population.Count >= maxPopulation) population.RemoveAt(population.Count - 1);
+                //if (population.Count >= maxPopulation) population.RemoveAt(population.Count - 1);
                 //recombination von 2 beste
 
                 if (print) Console.WriteLine("\nRekombination nummer " + i);
@@ -52,22 +54,44 @@ namespace Modell
 
                 if (print) Console.WriteLine(population[0].sudToString());
 
-                if (population.Count > maxPopulation) population.RemoveAt(population.Count - 1);
+                while (population.Count > maxPopulation) population.RemoveAt(natur.randomPosLoeschenElite(elite, population.Count));
                 //Console.WriteLine(fitn.fitnessArray());     
                 i++;
             }
             if(!print)Console.WriteLine(population[0].fitness);
+            printPopulation();
             Console.ReadLine();
         }
 
+        public void printPopulation()
+        {
+            int i = 0;
+
+            foreach(Sudoku s in population)
+            {
+                Console.WriteLine((i++) + "\n" + s.sudToString() + "\n");
+                schauFitness(s);
+                if (i > 15) break;
+            }
+        }
         public void schauFitness(Sudoku sud)
         {
            // if (print) Console.Write(fc);
             //if (print) Console.WriteLine("Fitness subMat " + i + "," + j + " : " + fs);
 
-            Console.WriteLine("Fitn tot chr : " + sud.fitnessChrom);
-            Console.WriteLine("Fitn tot sub ma : " + sud.fitnessSubMat);
-            Console.WriteLine("Fitn tot sudoku : " + (sud.fitness));
+            Console.Write("Fitn tot chr : ");
+            for (int i = 0; i < sud.fitnessChrom.Length; i++)
+                Console.Write(sud.fitnessChrom[i]);
+
+                Console.WriteLine("\nFitn tot sub ma : ");
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                        Console.Write(sud.fitnessSubMat[i, j]);
+                    Console.WriteLine();
+                }
+
+            Console.WriteLine("\nFitn tot sudoku : " + (sud.fitness));
         }
 
         public void rechnenFitnessSudoku(Sudoku sudFit)
@@ -143,6 +167,20 @@ namespace Modell
         }
 
         //i pos in population, welche sudoku will ich andern
+        public void kleinerMutationSwap(int i)//vielleicht andern alle chromosom ist sehr viel, nur eins könnte besser sein
+        {
+            int j = natur.randomPosLoeschenElite(0,9);
+
+            population[i].setChromStr(j, natur.mutationSwap(j, population[i].sudokuStr[j]));
+
+            Sudoku temp = population[i];
+            if (print) Console.WriteLine(temp.sudToString());
+            rechnenFitnessSudoku(temp); ;
+
+            population.RemoveAt(i);
+            einfugenInviduum(temp);
+        }
+
         public void teilMutationSwap(int i)
         {
             int j = 0;
@@ -177,7 +215,7 @@ namespace Modell
             if (print) Console.WriteLine(temp.sudToString());
             rechnenFitnessSudoku(temp); ;
 
-            population.RemoveAt(population.Count - 1);
+            //population.RemoveAt(population.Count - 1);
             einfugenInviduum(temp);
         }
 
@@ -194,7 +232,7 @@ namespace Modell
         //gebt die Position von die beste sudoku
         public int selektion()
         {
-            return 0;
+            return natur.randomPos(population.Count);
         }
 
         public int[] selektionRekombination()

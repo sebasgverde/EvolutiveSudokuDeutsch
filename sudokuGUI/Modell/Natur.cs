@@ -33,6 +33,8 @@ namespace Modell
 
             for (int i = 1; i < population.Count; i++)
                 population[i].gluckRadSektorGross = ((float)population[i].fitness / populationTotalFitnes) + population[i-1].gluckRadSektorGross;
+
+            population[population.Count - 1].gluckRadSektorGross = 1; //besser wegen float can sein 0,999999999 statt 1, und rand can 1 sein
         }
 
         public int RouletteSelektion(List<Sudoku> population)
@@ -46,6 +48,11 @@ namespace Modell
             while (population[i].gluckRadSektorGross < r) i++;
 
             return i;
+        }
+
+        public int randomPosLoeschenElite(int elite, int grossPopulation)
+        {
+            return rand.Next(elite, grossPopulation - 1);
         }
 
         public int randomPos(int grossPopulation)
