@@ -120,6 +120,31 @@ namespace Modell
             return new String(temp);
         }
 
+        public Sudoku[] rekombination2(Sudoku a, Sudoku b)
+        {
+            Sudoku kindA = new Sudoku(), kindB = new Sudoku();
+            int[] punkts = new int[9];
+
+            for (int i = 0; i < 9; i++)
+                punkts[i] = (int)(rand.Next(2));
+
+            for (int i = 0; i < 9; i++)
+            {
+                if (punkts[i] == 0)
+                {
+                    kindA.setChromStr(i, a.sudokuStr[i]);
+                    kindB.setChromStr(i, b.sudokuStr[i]);
+                }
+                else
+                {
+                    kindA.setChromStr(i, b.sudokuStr[i]);
+                    kindB.setChromStr(i, a.sudokuStr[i]);
+                }
+            }
+
+            return new Sudoku[] { kindA, kindB };
+
+        }
 
         public Sudoku[] rekombination1(Sudoku a, Sudoku b)
         {

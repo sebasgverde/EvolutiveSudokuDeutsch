@@ -8,18 +8,19 @@ namespace Modell
     public class Evolution
     {
         List<Sudoku> population;
-        int maxPopulation;
         Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
-        int populationSize = 7;
-        int elite = 5;
+        int populationSize = 12;
+        int elite = 10;
+        int maxGenerations = 10000000;
+        int maxPopulation = 100;
+        int zielFitness = 158;
         bool print = false;
 
         public Evolution(String sud)
         {
             population = new List<Sudoku>();
-            maxPopulation = 30;
             fitn = new Fitness();
             natur = new Natur();
             serGrundSudStr(sud);            
@@ -30,7 +31,7 @@ namespace Modell
             erstePoblation(populationSize);
 
             int i = 1;
-            while(aktuelFit < 157 && i<1000000) 
+            while (aktuelFit < zielFitness && i < maxGenerations) 
             {
                //mutation mit selektion von beste
                 int posSel = selektion();
@@ -40,6 +41,7 @@ namespace Modell
                 //teilMutationSwap(posSel);
                 //teilMutationSwapNueKind(posSel);
                 kleinerMutationSwap(posSel);
+                //kleinerMutationSwapNeuKind(posSel);
                 //teilMutation(0);
                 //aktuelFit = population[0].fitness;
                 //if (population.Count >= maxPopulation) population.RemoveAt(population.Count - 1);
@@ -48,7 +50,8 @@ namespace Modell
                 if (print) Console.WriteLine("\nRekombination nummer " + i);
                 int[] positions = selektionRekombination();
 
-                einfachRekombination(positions[0], positions[1]);
+                //einfachRekombination(positions[0], positions[1]);
+                rekombinationVieleOrte(positions[0], positions[1]);
                 aktuelFit = population[0].fitness;
                 if (aktuelFit > besteFit) besteFit = aktuelFit;
 
@@ -71,7 +74,7 @@ namespace Modell
             {
                 Console.WriteLine((i++) + "\n" + s.sudToString() + "\n");
                 schauFitness(s);
-                if (i > 15) break;
+                if (i > 10) break;
             }
         }
         public void schauFitness(Sudoku sud)
@@ -79,11 +82,11 @@ namespace Modell
            // if (print) Console.Write(fc);
             //if (print) Console.WriteLine("Fitness subMat " + i + "," + j + " : " + fs);
 
-            Console.Write("Fitn tot chr : ");
+            Console.WriteLine("Fitn tot chr : " + sud.fitTotChr);
             for (int i = 0; i < sud.fitnessChrom.Length; i++)
                 Console.Write(sud.fitnessChrom[i]);
 
-                Console.WriteLine("\nFitn tot sub ma : ");
+                Console.WriteLine("\nFitn tot sub ma : " + sud.fitTotSub);
                 for (int i = 0; i < 3; i++)
                 {
                     for (int j = 0; j < 3; j++)
@@ -120,7 +123,7 @@ namespace Modell
             }
 
             sudFit.fitTotChr = fitTotalChrom;
-            sudFit.fitTotSub = fitTotalChrom;
+            sudFit.fitTotSub = fitTotSubMat;
             sudFit.fitness = fitTotalChrom + fitTotalChrom;
 
             if (print) schauFitness(sudFit);
@@ -181,6 +184,28 @@ namespace Modell
             einfugenInviduum(temp);
         }
 
+        public void kleinerMutationSwapNeuKind(int i)//vielleicht andern alle chromosom ist sehr viel, nur eins könnte besser sein
+        {
+            Sudoku temp = new Sudoku();
+
+            int j = 0;
+            int posMut = natur.randomPosLoeschenElite(0, 9);
+
+            foreach (String a in population[i].sudokuStr)
+            {
+                //population[i].setChromosom(j, 
+                if (j == posMut) temp.setChromStr(j, natur.mutationSwap(j, a));
+                else temp.setChromStr(j, a);
+                j++;
+            }
+
+            if (print) Console.WriteLine(temp.sudToString());
+            rechnenFitnessSudoku(temp); ;
+
+            //population.RemoveAt(population.Count - 1);
+            einfugenInviduum(temp);
+        }
+
         public void teilMutationSwap(int i)
         {
             int j = 0;
@@ -229,10 +254,20 @@ namespace Modell
             einfugenInviduum(kinder[1]);
         }
 
+        public void rekombinationVieleOrte(int i, int j)
+        {
+            Sudoku[] kinder = natur.rekombination2(population[i], population[j]);
+            rechnenFitnessSudoku(kinder[0]);
+            rechnenFitnessSudoku(kinder[1]);
+
+            einfugenInviduum(kinder[0]);
+            einfugenInviduum(kinder[1]);
+        }
+
         //gebt die Position von die beste sudoku
         public int selektion()
         {
-            return natur.randomPos(population.Count);
+            return natur.randomPosLoeschenElite(elite - 1, population.Count - 1);
         }
 
         public int[] selektionRekombination()
