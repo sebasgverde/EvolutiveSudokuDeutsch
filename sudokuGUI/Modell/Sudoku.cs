@@ -18,6 +18,7 @@ namespace Modell
         public int[] fitnessChrom;
         public int[,] fitnessSubMat;
         public float gluckRadSektorGross;
+        public int generation;//um zu wissen, in welche generation erschaft wurde
 
         public Sudoku()
         {

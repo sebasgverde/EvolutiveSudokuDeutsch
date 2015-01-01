@@ -15,8 +15,9 @@ namespace Modell
         int elite = 10;
         int maxGenerations = 10000000;
         int maxPopulation = 100;
-        int zielFitness = 158;
+        int zielFitness = 162;
         bool print = false;
+        int generationIndex = 0;
 
         public Evolution(String sud)
         {
@@ -30,16 +31,16 @@ namespace Modell
 
             erstePoblation(populationSize);
 
-            int i = 1;
-            while (aktuelFit < zielFitness && i < maxGenerations) 
+            generationIndex = 1;
+            while (aktuelFit < zielFitness && generationIndex < maxGenerations) 
             {
                //mutation mit selektion von beste
                 int posSel = selektion();
 
-                if(print)Console.WriteLine("\nMutation nummer " + i);
+                if(print)Console.WriteLine("\nMutation nummer " + generationIndex);
                 //erstePoblation();
                 //teilMutationSwap(posSel);
-                //teilMutationSwapNueKind(posSel);
+                teilMutationSwapNueKind(posSel);
                 kleinerMutationSwap(posSel);
                 //kleinerMutationSwapNeuKind(posSel);
                 //teilMutation(0);
@@ -47,10 +48,10 @@ namespace Modell
                 //if (population.Count >= maxPopulation) population.RemoveAt(population.Count - 1);
                 //recombination von 2 beste
 
-                if (print) Console.WriteLine("\nRekombination nummer " + i);
+                if (print) Console.WriteLine("\nRekombination nummer " + generationIndex);
                 int[] positions = selektionRekombination();
 
-                //einfachRekombination(positions[0], positions[1]);
+                einfachRekombination(positions[0], positions[1]);
                 rekombinationVieleOrte(positions[0], positions[1]);
                 aktuelFit = population[0].fitness;
                 if (aktuelFit > besteFit) besteFit = aktuelFit;
@@ -59,7 +60,7 @@ namespace Modell
 
                 while (population.Count > maxPopulation) population.RemoveAt(natur.randomPosLoeschenElite(elite, population.Count));
                 //Console.WriteLine(fitn.fitnessArray());     
-                i++;
+                generationIndex++;
             }
             if(!print)Console.WriteLine(population[0].fitness);
             printPopulation();
@@ -124,7 +125,7 @@ namespace Modell
 
             sudFit.fitTotChr = fitTotalChrom;
             sudFit.fitTotSub = fitTotSubMat;
-            sudFit.fitness = fitTotalChrom + fitTotalChrom;
+            sudFit.fitness = fitTotalChrom + fitTotSubMat;
 
             if (print) schauFitness(sudFit);
         }
@@ -138,8 +139,9 @@ namespace Modell
 
         }
 
-        public void einfugenInviduum(Sudoku sud)
+        public void einfugenInviduum(Sudoku sud)//ich benutze auch um die generation index zu stellen
         {
+            sud.generation = generationIndex;
             int i = 0;
             while (i < population.Count && sud.fitness < population[i].fitness)
                 i++;
@@ -161,6 +163,7 @@ namespace Modell
                     temp.setChromStr(j, natur.fuellenChromosomRand(grundSudoku.sudokuStr[j]));            
 
                 rechnenFitnessSudoku(temp);
+                temp.generation = 0;
 
                 if (i == 0)
                     population.Add(temp);
