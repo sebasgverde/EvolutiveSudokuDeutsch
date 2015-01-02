@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Modell
 {
@@ -116,6 +114,51 @@ namespace Modell
             temp[pos] = temp[pos2];
             temp[pos2] = swap;
             
+
+            return new String(temp);
+        }
+
+        public Boolean istSchonInSaule(int sau, char nummer)
+        {
+            for (int i = 0; i < 9; i++)
+                if (matFest[i][sau] == nummer) return true;
+
+                return false;
+        }
+
+        public String mutationSwapMitEinschrankung(int i, String cr, int[] fitnessSaule)//mach kein swap, wenn in Ziel schon diese Nummer ist
+        {
+            char[] temp = cr.ToCharArray();
+
+            int pos = rand.Next(0, 8);//geben sie mir ein rand position
+            int pos2 = rand.Next(0, 8);
+
+            while (matFest[i][pos] != '0' || pos2 == pos)// || fitnessSaule[pos] == 9)
+                pos = nachstePos(pos);
+            while (matFest[i][pos2] != '0' || pos2 == pos || istSchonInSaule(pos2, temp[pos]))
+            {
+                if (istSchonInSaule(pos2, temp[pos])) 
+                    Console.WriteLine();
+                pos2 = nachstePos(pos2);
+            }
+
+            char swap = temp[pos];
+            temp[pos] = temp[pos2];
+            temp[pos2] = swap;
+
+
+            return new String(temp);
+        }
+
+        public String mutationSwapOhneNeunFitness(String cr, int pos, int pos2)
+        {
+            
+            char[] temp = cr.ToCharArray();
+
+            char swap = temp[pos];
+            temp[pos] = temp[pos2];
+            temp[pos2] = swap;
+
 
             return new String(temp);
         }

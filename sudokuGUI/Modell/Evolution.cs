@@ -11,10 +11,10 @@ namespace Modell
         Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
-        int populationSize = 12;
-        int elite = 10;
-        int maxGenerations = 10000000;
-        int maxPopulation = 100;
+        int populationSize = 17;
+        int elite = 15;
+        int maxGenerations = 500000;
+        int maxPopulation = 150;
         int zielFitness = 162;
         bool print = false;
         int generationIndex = 0;
@@ -34,25 +34,40 @@ namespace Modell
             generationIndex = 1;
             while (aktuelFit < zielFitness && generationIndex < maxGenerations) 
             {
-               //mutation mit selektion von beste
+               //mutation mit selektion
                 int posSel = selektion();
-
-                if(print)Console.WriteLine("\nMutation nummer " + generationIndex);
-                //erstePoblation();
-                //teilMutationSwap(posSel);
-                teilMutationSwapNueKind(posSel);
-                kleinerMutationSwap(posSel);
-                //kleinerMutationSwapNeuKind(posSel);
-                //teilMutation(0);
-                //aktuelFit = population[0].fitness;
-                //if (population.Count >= maxPopulation) population.RemoveAt(population.Count - 1);
-                //recombination von 2 beste
-
-                if (print) Console.WriteLine("\nRekombination nummer " + generationIndex);
                 int[] positions = selektionRekombination();
 
-                einfachRekombination(positions[0], positions[1]);
-                rekombinationVieleOrte(positions[0], positions[1]);
+                if(print)Console.WriteLine("\nMutation nummer " + generationIndex);
+                if (aktuelFit < zielFitness)
+                {
+                    //erstePoblation();
+                    //teilMutationSwap(posSel);
+                    teilMutationSwapNueKind(posSel);
+                    kleinerMutationSwap(posSel);
+                    //kleinerMutationSwapNeuKindMitEinschrankung(posSel);
+                    kleinerMutationSwapNeuKind(posSel);
+                    //teilMutation(0);
+                    //aktuelFit = population[0].fitness;
+                    //if (population.Count >= maxPopulation) population.RemoveAt(population.Count - 1);
+
+                    //recombination von 2 beste
+
+                    if (print) Console.WriteLine("\nRekombination nummer " + generationIndex);
+
+                    einfachRekombination(positions[0], positions[1]);
+                    rekombinationVieleOrte(positions[0], positions[1]);
+                }
+                else 
+                {
+                    posSel = natur.randomPos(elite);
+
+                    //kleinerMutationSwapNeuKindMitEinschrankung(posSel);
+                    //mutationSwapOhneNeunFitness(posSel);
+                    einfachRekombination(positions[0], positions[1]);
+                    rekombinationVieleOrte(positions[0], positions[1]);
+                }
+
                 aktuelFit = population[0].fitness;
                 if (aktuelFit > besteFit) besteFit = aktuelFit;
 
@@ -64,6 +79,7 @@ namespace Modell
             }
             if(!print)Console.WriteLine(population[0].fitness);
             printPopulation();
+            
             Console.ReadLine();
         }
 
@@ -209,6 +225,28 @@ namespace Modell
             einfugenInviduum(temp);
         }
 
+        public void kleinerMutationSwapNeuKindMitEinschrankung(int i)
+        {
+            Sudoku temp = new Sudoku();
+
+            int j = 0;
+            int posMut = natur.randomPosLoeschenElite(0, 9);
+
+            foreach (String a in population[i].sudokuStr)
+            {
+                //population[i].setChromosom(j, 
+                if (j == posMut) temp.setChromStr(j, natur.mutationSwapMitEinschrankung(j, a, population[i].fitnessChrom));
+                else temp.setChromStr(j, a);
+                j++;
+            }
+
+            if (print) Console.WriteLine(temp.sudToString());
+            rechnenFitnessSudoku(temp); ;
+
+            //population.RemoveAt(population.Count - 1);
+            einfugenInviduum(temp);
+        }
+
         public void teilMutationSwap(int i)
         {
             int j = 0;
@@ -247,6 +285,38 @@ namespace Modell
             einfugenInviduum(temp);
         }
 
+        public void mutationSwapOhneNeunFitness(int i)//mach swap zwischen 2 saule mit weniger als 9 fitness
+         {
+             Sudoku temp = new Sudoku();
+             Sudoku su = population[i];
+
+             //2 Saule ohne 9 fitness
+             List<int> saulePos = new List<int>();
+             for (int j = 0; j < 9; j++)
+                 if (su.fitnessChrom[j] < 9)
+                     saulePos.Add(j);
+
+             //ein chromosom wenn die beide saule sind nicht fest
+             int chromPos = 0;
+             while (natur.matFest[chromPos][saulePos[0]] != '0' && natur.matFest[chromPos][saulePos[1]] != '0')// || fitnessSaule[pos] == 9)
+                 chromPos = natur.nachstePos(chromPos);
+
+             int k = 0;
+             foreach (String a in su.sudokuStr)
+             {
+                 if (k == chromPos) temp.setChromStr(chromPos, natur.mutationSwapOhneNeunFitness(a, saulePos[0], saulePos[1]));
+                 else temp.setChromStr(k, a);
+                 k++;
+             }
+
+
+            if (print) Console.WriteLine(temp.sudToString());
+            rechnenFitnessSudoku(temp); ;
+
+            //population.RemoveAt(population.Count - 1);
+            einfugenInviduum(temp);
+        }
+
         public void einfachRekombination(int i, int j)
         {
             Sudoku[] kinder = natur.rekombination1(population[i], population[j]);
@@ -276,7 +346,7 @@ namespace Modell
         public int[] selektionRekombination()
         {
             //return new int[] {natur.randomPos(population.Count),0};
-            return new int[] { 0, natur.RouletteSelektion(population)};
+            return new int[] { natur.randomPos(elite), natur.RouletteSelektion(population) };
         }
 
         //i pos in population, welche sudoku will ich andern
