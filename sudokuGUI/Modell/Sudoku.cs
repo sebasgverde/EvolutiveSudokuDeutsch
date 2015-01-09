@@ -30,9 +30,14 @@ namespace Modell
         public Sudoku(String[] s)
         { 
             //matrixSudoku = new int [GROESS, GROESS];
-            sudokuStr = s;
-        }
+            sudokuStr = new String[9];
+            fitnessChrom = new int[9];
+            fitnessSubMat = new int[3, 3];
 
+            for (int i = 0; i<s.Length;i++ )
+                sudokuStr[i] = s[i].Clone().ToString();
+        }
+        
         public void setStr(String[] s)
         {
             sudokuStr = s;

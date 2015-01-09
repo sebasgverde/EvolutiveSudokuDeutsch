@@ -8,13 +8,14 @@ namespace Modell
     public class Evolution
     {
         List<Sudoku> population;
+        List<Sudoku> elites;
         Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
-        int populationSize = 17;
-        int elite = 15;
-        int maxGenerations = 500000;
-        int maxPopulation = 150;
+        int populationSize = 8;
+        int elite = 5;
+        int maxGenerations = 1000000;
+        int maxPopulation = 100;
         int zielFitness = 162;
         bool print = false;
         int generationIndex = 0;
@@ -22,6 +23,7 @@ namespace Modell
         public Evolution(String sud)
         {
             population = new List<Sudoku>();
+            elites = new List<Sudoku>();
             fitn = new Fitness();
             natur = new Natur();
             serGrundSudStr(sud);            
@@ -31,6 +33,7 @@ namespace Modell
 
             erstePoblation(populationSize);
 
+            int generationenOhneVerbesserung = 0;
             generationIndex = 1;
             while (aktuelFit < zielFitness && generationIndex < maxGenerations) 
             {
@@ -44,9 +47,9 @@ namespace Modell
                     //erstePoblation();
                     //teilMutationSwap(posSel);
                     teilMutationSwapNueKind(posSel);
-                    kleinerMutationSwap(posSel);
                     //kleinerMutationSwapNeuKindMitEinschrankung(posSel);
                     kleinerMutationSwapNeuKind(posSel);
+                    kleinerMutationSwap(posSel);
                     //teilMutation(0);
                     //aktuelFit = population[0].fitness;
                     //if (population.Count >= maxPopulation) population.RemoveAt(population.Count - 1);
@@ -69,7 +72,17 @@ namespace Modell
                 }
 
                 aktuelFit = population[0].fitness;
-                if (aktuelFit > besteFit) besteFit = aktuelFit;
+                if (aktuelFit > besteFit) { besteFit = aktuelFit; generationenOhneVerbesserung = 0; }
+                else generationenOhneVerbesserung++;
+
+                if (generationenOhneVerbesserung > 50000)
+                {
+                    restart();
+                    //aufwiedersehenBeste();
+                     //superMutation(); 
+                    //besteFit = population[0].fitness; 
+                    generationenOhneVerbesserung = 0;
+                }
 
                 if (print) Console.WriteLine(population[0].sudToString());
 
@@ -77,8 +90,11 @@ namespace Modell
                 //Console.WriteLine(fitn.fitnessArray());     
                 generationIndex++;
             }
+
             if(!print)Console.WriteLine(population[0].fitness);
             printPopulation();
+
+            Console.WriteLine(generationIndex);
             
             Console.ReadLine();
         }
@@ -87,11 +103,10 @@ namespace Modell
         {
             int i = 0;
 
-            foreach(Sudoku s in population)
+            foreach(Sudoku s in population.Reverse<Sudoku>())
             {
                 Console.WriteLine((i++) + "\n" + s.sudToString() + "\n");
                 schauFitness(s);
-                if (i > 10) break;
             }
         }
         public void schauFitness(Sudoku sud)
@@ -112,6 +127,60 @@ namespace Modell
                 }
 
             Console.WriteLine("\nFitn tot sudoku : " + (sud.fitness));
+        }
+
+        public void superMutation()
+        {
+            for(int i = 0; i < population.Count; i++)
+                kleinerMutationSwap(0);
+        }
+
+        public void restart()
+        {
+            elites.Add(population[0]);
+            population.Clear();
+
+            if (elites.Count >= populationSize)
+            {
+                foreach (Sudoku s in elites)
+                {
+                    Sudoku n = new Sudoku(s.sudokuStr);
+                    rechnenFitnessSudoku(n);
+                    einfugenInviduum(n);
+                }
+                //elites.Clear();
+            }
+            else
+                erstePoblation(populationSize);
+
+
+
+           /* foreach (Sudoku s in elites)
+            {
+                Sudoku n = new Sudoku(s.sudokuStr);
+                rechnenFitnessSudoku(n);
+                einfugenInviduum(n);
+            }*/
+        }
+        public void aufwiedersehenBeste()
+        {
+            int fit = population[0].fitness;
+            
+            /*while (population[1].fitness == fit)
+            {
+                population.RemoveAt(0);
+            }*/
+            int i = 0;
+            
+            while (i < population.Count - 1)
+            {
+                fit = population[i].fitness;
+                while (i + 1 < population.Count && population[i + 1].fitness == fit)
+                {
+                    population.RemoveAt(i);
+                }
+                i++;
+            }
         }
 
         public void rechnenFitnessSudoku(Sudoku sudFit)
