@@ -12,9 +12,9 @@ namespace Modell
         Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
-        int populationSize = 8;
-        int elite = 5;
-        int maxGenerations = 1000000;
+        int populationSize = 17;
+        int elite = 10;
+        int maxGenerations = 500000;
         int maxPopulation = 100;
         int zielFitness = 162;
         bool print = false;
@@ -45,14 +45,12 @@ namespace Modell
                 if (aktuelFit < zielFitness)
                 {
                     //erstePoblation();
-                    //teilMutationSwap(posSel);
+                    teilMutationSwap(posSel);
                     teilMutationSwapNueKind(posSel);
                     //kleinerMutationSwapNeuKindMitEinschrankung(posSel);
                     kleinerMutationSwapNeuKind(posSel);
-                    kleinerMutationSwap(posSel);
+                    //kleinerMutationSwap(posSel);
                     //teilMutation(0);
-                    //aktuelFit = population[0].fitness;
-                    //if (population.Count >= maxPopulation) population.RemoveAt(population.Count - 1);
 
                     //recombination von 2 beste
 
@@ -75,9 +73,9 @@ namespace Modell
                 if (aktuelFit > besteFit) { besteFit = aktuelFit; generationenOhneVerbesserung = 0; }
                 else generationenOhneVerbesserung++;
 
-                if (generationenOhneVerbesserung > 50000)
+                if (generationenOhneVerbesserung > 100000)
                 {
-                    restart();
+                   // restart();
                     //aufwiedersehenBeste();
                      //superMutation(); 
                     //besteFit = population[0].fitness; 
@@ -132,12 +130,16 @@ namespace Modell
         public void superMutation()
         {
             for(int i = 0; i < population.Count; i++)
-                kleinerMutationSwap(0);
+                kleinerMutationSwap(0, population);
         }
 
         public void restart()
         {
-            elites.Add(population[0]);
+            elites.Insert(0,population[0]);
+
+            if (elites.Count > 1 && elites[0].fitness == elites[1].fitness)
+                kleinerMutationSwap(0, elites);
+
             population.Clear();
 
             if (elites.Count >= populationSize)
@@ -148,19 +150,10 @@ namespace Modell
                     rechnenFitnessSudoku(n);
                     einfugenInviduum(n);
                 }
-                //elites.Clear();
             }
             else
                 erstePoblation(populationSize);
 
-
-
-           /* foreach (Sudoku s in elites)
-            {
-                Sudoku n = new Sudoku(s.sudokuStr);
-                rechnenFitnessSudoku(n);
-                einfugenInviduum(n);
-            }*/
         }
         public void aufwiedersehenBeste()
         {
@@ -258,7 +251,7 @@ namespace Modell
         }
 
         //i pos in population, welche sudoku will ich andern
-        public void kleinerMutationSwap(int i)//vielleicht andern alle chromosom ist sehr viel, nur eins könnte besser sein
+        public void kleinerMutationSwap(int i, List<Sudoku> population)//vielleicht andern alle chromosom ist sehr viel, nur eins könnte besser sein
         {
             int j = natur.randomPosLoeschenElite(0,9);
 
