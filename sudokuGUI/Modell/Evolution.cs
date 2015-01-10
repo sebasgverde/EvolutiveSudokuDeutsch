@@ -15,7 +15,7 @@ namespace Modell
         Natur natur;
         int populationSize = 3000;
         int elite = 150;
-        int maxGenerations = 100;
+        int maxGenerations = 500;
         int maxPopulation = 3000;
         int zielFitness = 162;
         int mutationChance = 5;//%
@@ -34,18 +34,36 @@ namespace Modell
             run();           
         }
 
-        public void run()
+        public Evolution(String sud, int popSize, int elit, int maxGen, int maxPop, int mutChanc, int crossovChanc)
+        {
+            population = new List<Sudoku>();
+            elites = new List<Sudoku>();
+            fitn = new Fitness();
+            natur = new Natur();
+            serGrundSudStr(sud);
+
+            populationSize = popSize;
+            elite = elit;
+            maxGenerations = maxGen;
+            maxPopulation = maxPop;
+            mutationChance = mutChanc;//%
+            crossoverChance = crossovChanc;
+        }
+
+        public String run()
         {
             int aktuelFit = 0;
             int besteFit = 0;
 
             erstePoblation(populationSize);
 
+            einfugenInviduum(population[0], elites);
+
             int generationenOhneVerbesserung = 0;
             generationIndex = 1;
             while (aktuelFit < zielFitness && generationIndex < maxGenerations)
             {
-                elites.Add(population[0]);
+                //elites.Add(population[0]);
                 List<Sudoku> tempPopulation = new List<Sudoku>();
                 while (tempPopulation.Count < maxPopulation)
                 {
@@ -84,12 +102,13 @@ namespace Modell
                 if (aktuelFit > besteFit) { besteFit = aktuelFit; generationenOhneVerbesserung = 0; }
                 else generationenOhneVerbesserung++;
 
-                if (generationenOhneVerbesserung > 30)
+                if (generationenOhneVerbesserung > 10)
                 {
                     //break;
-                    superMutation();
-                    foreach(Sudoku s in elites)
-                        einfugenInviduum(s,population);
+                    //superMutation();
+                    restart(); besteFit = 0;
+                    //foreach(Sudoku s in elites)
+                      //  einfugenInviduum(s,population);
                     Console.WriteLine(":'(");
                     generationenOhneVerbesserung = 0;
                 }
@@ -99,6 +118,11 @@ namespace Modell
             printPopulation();
             Console.WriteLine(generationIndex);
             Console.ReadLine();
+
+            Sudoku retSud = population[0].fitness > elites[0].fitness ? population[0] : elites[0];
+
+
+            return (retSud.sudToString() + schauFitness(retSud) + "\nGeneration Nummer: " + generationIndex);
         }
 
         public void printPopulation()
@@ -108,27 +132,30 @@ namespace Modell
             foreach(Sudoku s in population.GetRange(0,15).Reverse<Sudoku>())
             {
                 Console.WriteLine((i++) + "\n" + s.sudToString() + "\n");
-                schauFitness(s);
+                Console.Write(schauFitness(s));
             }
         }
-        public void schauFitness(Sudoku sud)
+        public String schauFitness(Sudoku sud)
         {
+            String ret = "";
            // if (print) Console.Write(fc);
             //if (print) Console.WriteLine("Fitness subMat " + i + "," + j + " : " + fs);
 
-            Console.WriteLine("Fitn tot chr : " + sud.fitTotChr);
+            ret  += ("\nFitn tot chr : " + sud.fitTotChr + "\n");
             for (int i = 0; i < sud.fitnessChrom.Length; i++)
-                Console.Write(sud.fitnessChrom[i]);
+                ret  += (sud.fitnessChrom[i]);
 
-                Console.WriteLine("\nFitn tot sub ma : " + sud.fitTotSub);
+            ret += ("\n\nFitn tot sub ma : " + sud.fitTotSub + "\n");
                 for (int i = 0; i < 3; i++)
                 {
                     for (int j = 0; j < 3; j++)
-                        Console.Write(sud.fitnessSubMat[i, j]);
-                    Console.WriteLine();
+                        ret += (sud.fitnessSubMat[i, j]);
+                    ret  += "\n";
                 }
 
-            Console.WriteLine("\nFitn tot sudoku : " + (sud.fitness));
+            ret  += ("\n\nFitn tot sudoku : " + (sud.fitness));
+
+            return ret;
         }
 
         public void superMutation()
@@ -141,7 +168,7 @@ namespace Modell
 
         public void restart()
         {
-            elites.Insert(0,population[0]);
+            einfugenInviduum(population[0], elites);
 
             //if (elites.Count > 1 && elites[0].fitness == elites[1].fitness)
                 //kleinerMutationSwap(0, elites);
