@@ -13,9 +13,9 @@ namespace Modell
         Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
-        int populationSize = 100;
-        int elite = 10;
-        int maxGenerations = 500000;
+        int populationSize = 1000;
+        int elite = 150;
+        int maxGenerations = 100;
         int maxPopulation = 1000;
         int zielFitness = 162;
         int mutationChance = 5;//%
@@ -29,9 +29,9 @@ namespace Modell
             elites = new List<Sudoku>();
             fitn = new Fitness();
             natur = new Natur();
-            serGrundSudStr(sud);            
+            serGrundSudStr(sud);
 
-            
+            run();           
         }
 
         public void run()
@@ -50,21 +50,37 @@ namespace Modell
                 {
                     int[] positions = selektionRekombination();
 
-                    if (natur.randomPos(100) > crossoverChance)
+                    if (natur.randomZahl(0, 100) < crossoverChance)
                     {
- 
+                        Sudoku[] kinder = rekombinationVieleOrte(positions[0], positions[1]);
+                        if (natur.randomZahl(0, 100) < mutationChance)
+                            kleinerMutationSwap(kinder[0]);
+
+                        einfugenInviduum(kinder[0], tempPopulation);
+                        einfugenInviduum(kinder[1], tempPopulation);
                     }
-                    //mutation mit selektion
-                    int posSel = selektion();
+                    else 
+                    {
+                        einfugenInviduum(population[positions[0]], tempPopulation);
+                        einfugenInviduum(population[positions[1]], tempPopulation);
+                    }
 
-
-                    if (print) Console.WriteLine("\nMutation nummer " + generationIndex);
-                    if (print) Console.WriteLine("\nRekombination nummer " + generationIndex);
-
-                    aktuelFit = population[0].fitness;
-                    if (aktuelFit > besteFit) { besteFit = aktuelFit; generationenOhneVerbesserung = 0; }
-                    else generationenOhneVerbesserung++;
                 }
+
+                population.Clear();
+                population = tempPopulation;
+                
+                /*mutation mit selektion
+                int posSel = selektion();
+
+
+                if (print) Console.WriteLine("\nMutation nummer " + generationIndex);
+                if (print) Console.WriteLine("\nRekombination nummer " + generationIndex);*/
+
+                aktuelFit = population[0].fitness;
+                if (aktuelFit > besteFit) { besteFit = aktuelFit; generationenOhneVerbesserung = 0; }
+                else generationenOhneVerbesserung++;
+
                 if (generationenOhneVerbesserung > 100000)
                 {
                     generationenOhneVerbesserung = 0;
@@ -109,16 +125,16 @@ namespace Modell
 
         public void superMutation()
         {
-            for(int i = 0; i < population.Count; i++)
-                kleinerMutationSwap(0, population);
+            //for(int i = 0; i < population.Count; i++)
+              //  kleinerMutationSwap(0, population);
         }
 
         public void restart()
         {
             elites.Insert(0,population[0]);
 
-            if (elites.Count > 1 && elites[0].fitness == elites[1].fitness)
-                kleinerMutationSwap(0, elites);
+            //if (elites.Count > 1 && elites[0].fitness == elites[1].fitness)
+                //kleinerMutationSwap(0, elites);
 
             population.Clear();
 
@@ -231,18 +247,18 @@ namespace Modell
         }
 
         //i pos in population, welche sudoku will ich andern
-        public void kleinerMutationSwap(int i, List<Sudoku> population)//vielleicht andern alle chromosom ist sehr viel, nur eins könnte besser sein
+        public void kleinerMutationSwap(Sudoku s)//vielleicht andern alle chromosom ist sehr viel, nur eins könnte besser sein
         {
             int j = natur.randomPosLoeschenElite(0,9);
 
-            population[i].setChromStr(j, natur.mutationSwap(j, population[i].sudokuStr[j]));
+            s.setChromStr(j, natur.mutationSwap(j, s.sudokuStr[j]));
 
-            Sudoku temp = population[i];
+            Sudoku temp = s;
             if (print) Console.WriteLine(temp.sudToString());
             rechnenFitnessSudoku(temp); ;
 
-            population.RemoveAt(i);
-            einfugenInviduum(temp, population);
+            //population.RemoveAt(i);
+            //einfugenInviduum(temp, population);
         }
 
         public void kleinerMutationSwapNeuKind(int i)//vielleicht andern alle chromosom ist sehr viel, nur eins könnte besser sein
@@ -359,24 +375,28 @@ namespace Modell
             einfugenInviduum(temp, population);
         }
 
-        public void einfachRekombination(int i, int j)
+        public Sudoku[] einfachRekombination(int i, int j)
         {
             Sudoku[] kinder = natur.rekombination1(population[i], population[j]);
             rechnenFitnessSudoku(kinder[0]);
             rechnenFitnessSudoku(kinder[1]);
 
-            einfugenInviduum(kinder[0], population);
-            einfugenInviduum(kinder[1], population);
+            //einfugenInviduum(kinder[0], population);
+            //einfugenInviduum(kinder[1], population);
+
+            return kinder;
         }
 
-        public void rekombinationVieleOrte(int i, int j)
+        public Sudoku[] rekombinationVieleOrte(int i, int j)
         {
             Sudoku[] kinder = natur.rekombination2(population[i], population[j]);
             rechnenFitnessSudoku(kinder[0]);
             rechnenFitnessSudoku(kinder[1]);
 
-            einfugenInviduum(kinder[0], population);
-            einfugenInviduum(kinder[1], population);
+            //einfugenInviduum(kinder[0], population);
+            //einfugenInviduum(kinder[1], population);
+
+            return kinder;
         }
 
         //gebt die Position von die beste sudoku
@@ -388,7 +408,8 @@ namespace Modell
         public int[] selektionRekombination()
         {
             //return new int[] {natur.randomPos(population.Count),0};
-            return new int[] { natur.randomPos(elite), natur.RouletteSelektion(population) };
+            return new int[] { natur.randomPosPopulation(elite), natur.RouletteSelektion(population) };
+            //return new int[] { natur.RouletteSelektion(population), natur.RouletteSelektion(population) };
         }
 
         //i pos in population, welche sudoku will ich andern

@@ -53,9 +53,14 @@ namespace Modell
             return rand.Next(elite, grossPopulation - 1);
         }
 
-        public int randomPos(int grossPopulation)
+        public int randomPosPopulation(int grossPopulation)
         {
             return rand.Next(0, grossPopulation - 1);
+        }
+
+        public int randomZahl(int gering, int hoch)
+        {
+            return rand.Next(gering, hoch);
         }
 
         //Round robin für die Positionen in den Chromosomen
