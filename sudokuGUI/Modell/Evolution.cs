@@ -9,14 +9,17 @@ namespace Modell
     {
         List<Sudoku> population;
         List<Sudoku> elites;
+        List<Sudoku> eltern;
         Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
-        int populationSize = 17;
+        int populationSize = 100;
         int elite = 10;
         int maxGenerations = 500000;
-        int maxPopulation = 100;
+        int maxPopulation = 1000;
         int zielFitness = 162;
+        int mutationChance = 5;//%
+        int crossoverChance = 50;
         bool print = false;
         int generationIndex = 0;
 
@@ -28,6 +31,11 @@ namespace Modell
             natur = new Natur();
             serGrundSudStr(sud);            
 
+            
+        }
+
+        public void run()
+        {
             int aktuelFit = 0;
             int besteFit = 0;
 
@@ -35,65 +43,37 @@ namespace Modell
 
             int generationenOhneVerbesserung = 0;
             generationIndex = 1;
-            while (aktuelFit < zielFitness && generationIndex < maxGenerations) 
+            while (aktuelFit < zielFitness && generationIndex < maxGenerations)
             {
-               //mutation mit selektion
-                int posSel = selektion();
-                int[] positions = selektionRekombination();
-
-                if(print)Console.WriteLine("\nMutation nummer " + generationIndex);
-                if (aktuelFit < zielFitness)
+                List<Sudoku> tempPopulation = new List<Sudoku>();
+                while (tempPopulation.Count < maxPopulation)
                 {
-                    //erstePoblation();
-                    teilMutationSwap(posSel);
-                    teilMutationSwapNueKind(posSel);
-                    //kleinerMutationSwapNeuKindMitEinschrankung(posSel);
-                    kleinerMutationSwapNeuKind(posSel);
-                    //kleinerMutationSwap(posSel);
-                    //teilMutation(0);
+                    int[] positions = selektionRekombination();
 
-                    //recombination von 2 beste
+                    if (natur.randomPos(100) > crossoverChance)
+                    {
+ 
+                    }
+                    //mutation mit selektion
+                    int posSel = selektion();
 
+
+                    if (print) Console.WriteLine("\nMutation nummer " + generationIndex);
                     if (print) Console.WriteLine("\nRekombination nummer " + generationIndex);
 
-                    einfachRekombination(positions[0], positions[1]);
-                    rekombinationVieleOrte(positions[0], positions[1]);
+                    aktuelFit = population[0].fitness;
+                    if (aktuelFit > besteFit) { besteFit = aktuelFit; generationenOhneVerbesserung = 0; }
+                    else generationenOhneVerbesserung++;
                 }
-                else 
-                {
-                    posSel = natur.randomPos(elite);
-
-                    //kleinerMutationSwapNeuKindMitEinschrankung(posSel);
-                    //mutationSwapOhneNeunFitness(posSel);
-                    einfachRekombination(positions[0], positions[1]);
-                    rekombinationVieleOrte(positions[0], positions[1]);
-                }
-
-                aktuelFit = population[0].fitness;
-                if (aktuelFit > besteFit) { besteFit = aktuelFit; generationenOhneVerbesserung = 0; }
-                else generationenOhneVerbesserung++;
-
                 if (generationenOhneVerbesserung > 100000)
                 {
-                   // restart();
-                    //aufwiedersehenBeste();
-                     //superMutation(); 
-                    //besteFit = population[0].fitness; 
                     generationenOhneVerbesserung = 0;
                 }
-
-                if (print) Console.WriteLine(population[0].sudToString());
-
-                while (population.Count > maxPopulation) population.RemoveAt(natur.randomPosLoeschenElite(elite, population.Count));
-                //Console.WriteLine(fitn.fitnessArray());     
                 generationIndex++;
             }
 
-            if(!print)Console.WriteLine(population[0].fitness);
             printPopulation();
-
             Console.WriteLine(generationIndex);
-            
             Console.ReadLine();
         }
 
@@ -148,7 +128,7 @@ namespace Modell
                 {
                     Sudoku n = new Sudoku(s.sudokuStr);
                     rechnenFitnessSudoku(n);
-                    einfugenInviduum(n);
+                    einfugenInviduum(n,population);
                 }
             }
             else
@@ -217,7 +197,7 @@ namespace Modell
 
         }
 
-        public void einfugenInviduum(Sudoku sud)//ich benutze auch um die generation index zu stellen
+        public void einfugenInviduum(Sudoku sud, List<Sudoku> population)//ich benutze auch um die generation index zu stellen
         {
             sud.generation = generationIndex;
             int i = 0;
@@ -246,7 +226,7 @@ namespace Modell
                 if (i == 0)
                     population.Add(temp);
                 else
-                    einfugenInviduum(temp);
+                    einfugenInviduum(temp, population);
             }
         }
 
@@ -262,7 +242,7 @@ namespace Modell
             rechnenFitnessSudoku(temp); ;
 
             population.RemoveAt(i);
-            einfugenInviduum(temp);
+            einfugenInviduum(temp, population);
         }
 
         public void kleinerMutationSwapNeuKind(int i)//vielleicht andern alle chromosom ist sehr viel, nur eins könnte besser sein
@@ -284,7 +264,7 @@ namespace Modell
             rechnenFitnessSudoku(temp); ;
 
             //population.RemoveAt(population.Count - 1);
-            einfugenInviduum(temp);
+            einfugenInviduum(temp, population);
         }
 
         public void kleinerMutationSwapNeuKindMitEinschrankung(int i)
@@ -306,7 +286,7 @@ namespace Modell
             rechnenFitnessSudoku(temp); ;
 
             //population.RemoveAt(population.Count - 1);
-            einfugenInviduum(temp);
+            einfugenInviduum(temp, population);
         }
 
         public void teilMutationSwap(int i)
@@ -324,7 +304,7 @@ namespace Modell
             rechnenFitnessSudoku(temp); ;
 
             population.RemoveAt(i);
-            einfugenInviduum(temp);
+            einfugenInviduum(temp, population);
         }
 
         //Andere Strategie, die mutation gebt ein neues kind
@@ -344,7 +324,7 @@ namespace Modell
             rechnenFitnessSudoku(temp); ;
 
             //population.RemoveAt(population.Count - 1);
-            einfugenInviduum(temp);
+            einfugenInviduum(temp, population);
         }
 
         public void mutationSwapOhneNeunFitness(int i)//mach swap zwischen 2 saule mit weniger als 9 fitness
@@ -376,7 +356,7 @@ namespace Modell
             rechnenFitnessSudoku(temp); ;
 
             //population.RemoveAt(population.Count - 1);
-            einfugenInviduum(temp);
+            einfugenInviduum(temp, population);
         }
 
         public void einfachRekombination(int i, int j)
@@ -385,8 +365,8 @@ namespace Modell
             rechnenFitnessSudoku(kinder[0]);
             rechnenFitnessSudoku(kinder[1]);
 
-            einfugenInviduum(kinder[0]);
-            einfugenInviduum(kinder[1]);
+            einfugenInviduum(kinder[0], population);
+            einfugenInviduum(kinder[1], population);
         }
 
         public void rekombinationVieleOrte(int i, int j)
@@ -395,8 +375,8 @@ namespace Modell
             rechnenFitnessSudoku(kinder[0]);
             rechnenFitnessSudoku(kinder[1]);
 
-            einfugenInviduum(kinder[0]);
-            einfugenInviduum(kinder[1]);
+            einfugenInviduum(kinder[0], population);
+            einfugenInviduum(kinder[1], population);
         }
 
         //gebt die Position von die beste sudoku
