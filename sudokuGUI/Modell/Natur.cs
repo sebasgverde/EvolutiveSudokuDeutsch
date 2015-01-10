@@ -48,6 +48,23 @@ namespace Modell
             return i;
         }
 
+        //deterministic, wenn ich will probabilistic, replace mit <
+        public int turnierSelektion(int nummerTeilnehmer, List<Sudoku> population)
+        {                
+            int beste = randomPosPopulation(population.Count);
+            int i = 1;
+            while(i < nummerTeilnehmer)
+            {
+                int neu = randomPosPopulation(population.Count);
+                if (population[neu].fitness > population[beste].fitness)
+                    beste = neu;
+
+                i++;
+            }
+
+            return beste;
+        }
+
         public int randomPosLoeschenElite(int elite, int grossPopulation)
         {
             return rand.Next(elite, grossPopulation - 1);
