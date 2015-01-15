@@ -21,7 +21,7 @@ namespace sudokuGUI
         private void RechnenBtn_Click(object sender, EventArgs e)
         {
             String sud = sudtxt.Text;
-            Evolution evo = new Evolution(sud, Convert.ToInt32(popSizTxt.Text), Convert.ToInt32(eliteTxt.Text), Convert.ToInt32(maxGenTxt.Text), Convert.ToInt32(maxPopTxt.Text), Convert.ToInt32(mutChanTxt.Text), Convert.ToInt32(crroChanTxt.Text),mutMethodCB.SelectedIndex, crossMetCB.SelectedIndex);
+            Evolution evo = new Evolution(sud, Convert.ToInt32(popSizTxt.Text), Convert.ToInt32(eliteTxt.Text), Convert.ToInt32(maxGenTxt.Text), Convert.ToInt32(maxPopTxt.Text), Convert.ToInt32(mutChanTxt.Text), Convert.ToInt32(crroChanTxt.Text),mutMethodCB.SelectedIndex, Convert.ToInt32(mutRadTxt.Text), crossMetCB.SelectedIndex);
             resultTxt.Text = evo.run().Replace("\n", "\r\n");
             evo.run();
         }

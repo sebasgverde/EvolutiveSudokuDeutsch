@@ -50,7 +50,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.mutMethodCB = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.mutRadTxt = new System.Windows.Forms.TextBox();
             this.Radius = new System.Windows.Forms.Label();
             this.Methode = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -256,7 +256,8 @@
             this.mutMethodCB.FormattingEnabled = true;
             this.mutMethodCB.Items.AddRange(new object[] {
             "Klein",
-            "ganz"});
+            "ganz",
+            "normal"});
             this.mutMethodCB.Location = new System.Drawing.Point(67, 22);
             this.mutMethodCB.Name = "mutMethodCB";
             this.mutMethodCB.Size = new System.Drawing.Size(143, 21);
@@ -264,7 +265,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.mutRadTxt);
             this.groupBox2.Controls.Add(this.Radius);
             this.groupBox2.Controls.Add(this.Methode);
             this.groupBox2.Controls.Add(this.mutMethodCB);
@@ -275,13 +276,13 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Mutation";
             // 
-            // textBox1
+            // mutRadTxt
             // 
-            this.textBox1.Location = new System.Drawing.Point(110, 49);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(23, 20);
-            this.textBox1.TabIndex = 18;
-            this.textBox1.Text = "1";
+            this.mutRadTxt.Location = new System.Drawing.Point(110, 49);
+            this.mutRadTxt.Name = "mutRadTxt";
+            this.mutRadTxt.Size = new System.Drawing.Size(23, 20);
+            this.mutRadTxt.TabIndex = 18;
+            this.mutRadTxt.Text = "1";
             // 
             // Radius
             // 
@@ -385,7 +386,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label Radius;
         private System.Windows.Forms.Label Methode;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox mutRadTxt;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ComboBox crossMetCB;
     }

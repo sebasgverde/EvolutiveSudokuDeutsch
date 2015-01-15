@@ -38,7 +38,7 @@ namespace Modell
             run();           
         }
 
-        public Evolution(String sud, int popSize, int elit, int maxGen, int maxPop, int mutChanc, int crossovChanc, int mutMet, int crossMet)
+        public Evolution(String sud, int popSize, int elit, int maxGen, int maxPop, int mutChanc, int crossovChanc, int mutMet, int mutRad, int crossMet)
         {
             population = new List<Sudoku>();
             elites = new List<Sudoku>();
@@ -54,6 +54,7 @@ namespace Modell
             crossoverChance = crossovChanc;
 
             mutationMethode = mutMet;
+            mutationRadius = mutRad;
             crossoverMethode = crossMet;
         }
 
@@ -66,6 +67,9 @@ namespace Modell
                     break;
                 case 1:
                     teilMutationSwap(s);
+                    break;
+                case 2:
+                    mutationSwap(s);
                     break;
                 default:
                     kleinerMutationSwap(s);
@@ -324,6 +328,16 @@ namespace Modell
             }
         }
 
+        public void mutationSwap(Sudoku s)
+        {
+            for (int i = 0; i < mutationRadius; i++)
+            {
+                int j = natur.randomPosLoeschenElite(0, 9);
+
+                s.setChromStr(j, natur.mutationSwap(j, s.sudokuStr[j]));
+            }
+            rechnenFitnessSudoku(s);
+        }
         //i pos in population, welche sudoku will ich andern
         public void kleinerMutationSwap(Sudoku s)//vielleicht andern alle chromosom ist sehr viel, nur eins könnte besser sein
         {
@@ -337,7 +351,7 @@ namespace Modell
 
             //population.RemoveAt(i);
             //einfugenInviduum(temp, population);
-        }      
+        }
 
         public void teilMutationSwap(Sudoku s)
         {
