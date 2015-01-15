@@ -176,7 +176,7 @@ namespace Modell
 
             foreach(Sudoku s in elites)//population.GetRange(0,15).Reverse<Sudoku>())
             {
-                a += ((i++) + "\n" + s.sudToString() + "\n");
+                a += ("\n" + (i++) + "\n" + s.sudToString() + "\n");
                 a += (schauFitness(s));
             }
             return a;

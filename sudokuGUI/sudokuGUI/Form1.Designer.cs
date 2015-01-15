@@ -57,11 +57,12 @@
             this.label11 = new System.Windows.Forms.Label();
             this.crossMetCB = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -94,6 +95,7 @@
             this.resultTxt.Location = new System.Drawing.Point(474, 61);
             this.resultTxt.Multiline = true;
             this.resultTxt.Name = "resultTxt";
+            this.resultTxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.resultTxt.Size = new System.Drawing.Size(202, 290);
             this.resultTxt.TabIndex = 2;
             // 
@@ -315,7 +317,7 @@
             this.groupBox3.Controls.Add(this.crossMetCB);
             this.groupBox3.Location = new System.Drawing.Point(26, 376);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(229, 100);
+            this.groupBox3.Size = new System.Drawing.Size(229, 63);
             this.groupBox3.TabIndex = 7;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Crossover";
@@ -346,12 +348,24 @@
             this.groupBox4.Controls.Add(this.label12);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.comboBox1);
-            this.groupBox4.Location = new System.Drawing.Point(282, 357);
+            this.groupBox4.Location = new System.Drawing.Point(26, 447);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(216, 82);
+            this.groupBox4.Size = new System.Drawing.Size(229, 82);
             this.groupBox4.TabIndex = 19;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Selektion";
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "normal",
+            "Einschrankung",
+            "ohne 9"});
+            this.comboBox2.Location = new System.Drawing.Point(67, 47);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(143, 21);
+            this.comboBox2.TabIndex = 18;
             // 
             // label12
             // 
@@ -383,33 +397,31 @@
             this.comboBox1.Size = new System.Drawing.Size(143, 21);
             this.comboBox1.TabIndex = 14;
             // 
-            // comboBox2
-            // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "normal",
-            "Einschrankung",
-            "ohne 9"});
-            this.comboBox2.Location = new System.Drawing.Point(67, 47);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(143, 21);
-            this.comboBox2.TabIndex = 18;
-            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(540, 393);
+            this.button1.Location = new System.Drawing.Point(319, 376);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(90, 22);
             this.button1.TabIndex = 20;
-            this.button1.Text = "Rechnen";
+            this.button1.Text = "Elites";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(474, 376);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(202, 198);
+            this.textBox1.TabIndex = 21;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(705, 461);
+            this.ClientSize = new System.Drawing.Size(705, 586);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -471,6 +483,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

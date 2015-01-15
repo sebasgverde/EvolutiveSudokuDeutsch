@@ -29,9 +29,9 @@ namespace sudokuGUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            evo.restart(0);
-            resultTxt.Text = evo.run().Replace("\n", "\r\n");
-            MessageBox.Show(evo.printPopulation());
+           /* evo.restart(0);
+            resultTxt.Text = evo.run().Replace("\n", "\r\n");*/
+            textBox1.Text=evo.printPopulation().Replace("\n", "\r\n");
         }
     }
 }
