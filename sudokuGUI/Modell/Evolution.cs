@@ -56,6 +56,9 @@ namespace Modell
             mutationMethode = mutMet;
             mutationRadius = mutRad;
             crossoverMethode = crossMet;
+
+            erstePoblation(populationSize);
+            einfugenInviduum(population[0], elites);
         }
 
         public void mutationInterface(int methode, Sudoku s)
@@ -63,17 +66,17 @@ namespace Modell
             switch (methode)
             {
                 case 0:
-                    kleinerMutationSwap(s);
-                    break;
-                case 1:
-                    teilMutationSwap(s);
-                    break;
-                case 2:
                     mutationSwap(s);
                     break;
-                default:
-                    kleinerMutationSwap(s);
+                case 1:
+                    MutationSwapMitEinschrankung(s);
                     break;
+                case 2:
+                    mutationSwapOhneNeunFitness(s);
+                    break;
+                default:
+                    mutationSwap(s);
+                    break;;
             }
 
         }
@@ -98,10 +101,6 @@ namespace Modell
         {
             int aktuelFit = 0;
             int besteFit = 0;
-
-            erstePoblation(populationSize);
-
-            einfugenInviduum(population[0], elites);
 
             int generationenOhneVerbesserung = 0;
             generationIndex = 1;
@@ -147,11 +146,11 @@ namespace Modell
                 if (aktuelFit > besteFit) { besteFit = aktuelFit; generationenOhneVerbesserung = 0; }
                 else generationenOhneVerbesserung++;
 
-                if (generationenOhneVerbesserung > 10)
+                if (generationenOhneVerbesserung > 15)
                 {
                     //break;
                     //superMutation();
-                    restart(); besteFit = 0;
+                    restart(1); besteFit = 0;
                     //foreach(Sudoku s in elites)
                       //  einfugenInviduum(s,population);
                     Console.WriteLine(":'(");
@@ -160,7 +159,7 @@ namespace Modell
                 generationIndex++;
             }
 
-            printPopulation();
+            //printPopulation();
             Console.WriteLine(generationIndex);
             //Console.ReadLine();
 
@@ -170,15 +169,17 @@ namespace Modell
             return (retSud.sudToString() + schauFitness(retSud) + "\nGeneration Nummer: " + generationIndex);
         }
 
-        public void printPopulation()
+        public String printPopulation()
         {
+            String a = "";
             int i = 0;
 
-            foreach(Sudoku s in population.GetRange(0,15).Reverse<Sudoku>())
+            foreach(Sudoku s in elites)//population.GetRange(0,15).Reverse<Sudoku>())
             {
-                Console.WriteLine((i++) + "\n" + s.sudToString() + "\n");
-                Console.Write(schauFitness(s));
+                a += ((i++) + "\n" + s.sudToString() + "\n");
+                a += (schauFitness(s));
             }
+            return a;
         }
         public String schauFitness(Sudoku sud)
         {
@@ -211,26 +212,29 @@ namespace Modell
                 kleinerMutationSwap(population[i]);
         }
 
-        public void restart()
+        public void restart(int fall)
         {
-            einfugenInviduum(population[0], elites);
-
             //if (elites.Count > 1 && elites[0].fitness == elites[1].fitness)
                 //kleinerMutationSwap(0, elites);
 
-            population.Clear();
 
-            if (elites.Count >= populationSize)
+            if (fall == 0)
             {
                 foreach (Sudoku s in elites)
                 {
+                    population.Clear();
                     Sudoku n = new Sudoku(s.sudokuStr);
                     rechnenFitnessSudoku(n);
                     einfugenInviduum(n,population);
                 }
+                populationSize = population.Count;
             }
             else
+            {
+                einfugenInviduum(population[0], elites);
+                population.Clear();
                 erstePoblation(populationSize);
+            }
 
         }
         public void aufwiedersehenBeste()
@@ -338,44 +342,22 @@ namespace Modell
             }
             rechnenFitnessSudoku(s);
         }
-        //i pos in population, welche sudoku will ich andern
-        public void kleinerMutationSwap(Sudoku s)//vielleicht andern alle chromosom ist sehr viel, nur eins könnte besser sein
-        {
-            int j = natur.randomPosLoeschenElite(0,9);
-
-            s.setChromStr(j, natur.mutationSwap(j, s.sudokuStr[j]));
-
-            Sudoku temp = s;
-            if (print) Console.WriteLine(temp.sudToString());
-            rechnenFitnessSudoku(temp); ;
-
-            //population.RemoveAt(i);
-            //einfugenInviduum(temp, population);
-        }
-
-        public void teilMutationSwap(Sudoku s)
-        {
-            int j = 0;
-            foreach (String a in s.sudokuStr)
-            {
-                //population[i].setChromosom(j, 
-                s.setChromStr(j,natur.mutationSwap(j, a));
-                j++;
-            }
-
-            Sudoku temp = s;
-            if(print)Console.WriteLine(temp.sudToString());
-            rechnenFitnessSudoku(temp);
-        }
 
         //Andere Strategie, die mutation gebt ein neues kind
-        
 
-        public void mutationSwapOhneNeunFitness(int i)//mach swap zwischen 2 saule mit weniger als 9 fitness
+        public void MutationSwapMitEinschrankung(Sudoku s)
+        {
+          
+            for (int i = 0; i < mutationRadius; i++)
+            {
+                int j = natur.randomPosLoeschenElite(0, 9);
+                s.setChromStr(j, natur.mutationSwapMitEinschrankung(j, s.sudokuStr[j], s.fitnessChrom));
+            }
+            rechnenFitnessSudoku(s);
+        }
+
+        public void mutationSwapOhneNeunFitness(Sudoku su)//mach swap zwischen 2 saule mit weniger als 9 fitness
          {
-             Sudoku temp = new Sudoku();
-             Sudoku su = population[i];
-
              //2 Saule ohne 9 fitness
              List<int> saulePos = new List<int>();
              for (int j = 0; j < 9; j++)
@@ -387,20 +369,8 @@ namespace Modell
              while (natur.matFest[chromPos][saulePos[0]] != '0' && natur.matFest[chromPos][saulePos[1]] != '0')// || fitnessSaule[pos] == 9)
                  chromPos = natur.nachstePos(chromPos);
 
-             int k = 0;
-             foreach (String a in su.sudokuStr)
-             {
-                 if (k == chromPos) temp.setChromStr(chromPos, natur.mutationSwapOhneNeunFitness(a, saulePos[0], saulePos[1]));
-                 else temp.setChromStr(k, a);
-                 k++;
-             }
-
-
-            if (print) Console.WriteLine(temp.sudToString());
-            rechnenFitnessSudoku(temp); ;
-
-            //population.RemoveAt(population.Count - 1);
-            einfugenInviduum(temp, population);
+             su.setChromStr(chromPos, natur.mutationSwapOhneNeunFitness(su.sudokuStr[chromPos], saulePos[0], saulePos[1]));
+             rechnenFitnessSudoku(su);
         }
 
         public Sudoku[] einfachRekombination(int i, int j)
@@ -438,7 +408,7 @@ namespace Modell
             //return new int[] {natur.randomPos(population.Count),0};
             //return new int[] { natur.randomPosPopulation(elite), natur.RouletteSelektion(population) };
             //return new int[] { natur.RouletteSelektion(population), natur.RouletteSelektion(population) };
-            return new int[] { natur.randomPosPopulation(elite), natur.turnierSelektion(10,population) };//turnier
+            return new int[] { natur.randomPosPopulation(population.Count), natur.turnierSelektion(10,population) };//turnier
         }
 
 
@@ -455,31 +425,41 @@ namespace Modell
 
 
         //------------------------------------------------------------------------------------------
-
-        /*diese methoden waren eine schlechte architektur, mutation muss nur ein sudoku verandern, es muss
-        void sein, ich muss wenn es call entscheiden ob es + oder coma estrategie ist*/
-
-        public void kleinerMutationSwapNeuKindMitEinschrankung(int i)
+        //i pos in population, welche sudoku will ich andern
+        public void kleinerMutationSwap(Sudoku s)//vielleicht andern alle chromosom ist sehr viel, nur eins könnte besser sein
         {
-            Sudoku temp = new Sudoku();
+            int j = natur.randomPosLoeschenElite(0, 9);
 
-            int j = 0;
-            int posMut = natur.randomPosLoeschenElite(0, 9);
+            s.setChromStr(j, natur.mutationSwap(j, s.sudokuStr[j]));
 
-            foreach (String a in population[i].sudokuStr)
-            {
-                //population[i].setChromosom(j, 
-                if (j == posMut) temp.setChromStr(j, natur.mutationSwapMitEinschrankung(j, a, population[i].fitnessChrom));
-                else temp.setChromStr(j, a);
-                j++;
-            }
-
+            Sudoku temp = s;
             if (print) Console.WriteLine(temp.sudToString());
             rechnenFitnessSudoku(temp); ;
 
-            //population.RemoveAt(population.Count - 1);
-            einfugenInviduum(temp, population);
+            //population.RemoveAt(i);
+            //einfugenInviduum(temp, population);
         }
+
+        public void teilMutationSwap(Sudoku s)
+
+
+
+        {
+            int j = 0;
+            foreach (String a in s.sudokuStr)
+            {
+                //population[i].setChromosom(j, 
+                s.setChromStr(j, natur.mutationSwap(j, a));
+                j++;
+            }
+
+            Sudoku temp = s;
+            if (print) Console.WriteLine(temp.sudToString());
+            rechnenFitnessSudoku(temp);
+        }
+        /*diese methoden waren eine schlechte architektur, mutation muss nur ein sudoku verandern, es muss
+        void sein, ich muss wenn es call entscheiden ob es + oder coma estrategie ist*/
+
         public void teilMutationSwapNueKind(int i)
         {
             Sudoku temp = new Sudoku();

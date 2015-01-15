@@ -157,11 +157,16 @@ namespace Modell
 
             while (matFest[i][pos] != '0' || pos2 == pos)// || fitnessSaule[pos] == 9)
                 pos = nachstePos(pos);
+
+            int flag = 0;
             while (matFest[i][pos2] != '0' || pos2 == pos || istSchonInSaule(pos2, temp[pos]))
             {
+                if (flag >= 9) return cr;
+
                 if (istSchonInSaule(pos2, temp[pos])) 
                     Console.WriteLine();
                 pos2 = nachstePos(pos2);
+                flag++;
             }
 
             char swap = temp[pos];
