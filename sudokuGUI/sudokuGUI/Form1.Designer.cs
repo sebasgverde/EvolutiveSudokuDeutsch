@@ -32,6 +32,8 @@
             this.RechnenBtn = new System.Windows.Forms.Button();
             this.resultTxt = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.crroChanTxt = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -44,11 +46,19 @@
             this.eliteTxt = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.popSizTxt = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.mutMethodCB = new System.Windows.Forms.ComboBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.Radius = new System.Windows.Forms.Label();
+            this.Methode = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.crossMetCB = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // sudtxt
@@ -64,7 +74,7 @@
             // 
             // RechnenBtn
             // 
-            this.RechnenBtn.Location = new System.Drawing.Point(177, 303);
+            this.RechnenBtn.Location = new System.Drawing.Point(319, 308);
             this.RechnenBtn.Name = "RechnenBtn";
             this.RechnenBtn.Size = new System.Drawing.Size(90, 22);
             this.RechnenBtn.TabIndex = 1;
@@ -102,6 +112,24 @@
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Parameters";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(170, 165);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(15, 13);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "%";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(170, 139);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(15, 13);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "%";
             // 
             // label6
             // 
@@ -205,24 +233,6 @@
             this.popSizTxt.TabIndex = 0;
             this.popSizTxt.Text = "3000";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(170, 139);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(15, 13);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "%";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(170, 165);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(15, 13);
-            this.label8.TabIndex = 13;
-            this.label8.Text = "%";
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -241,11 +251,94 @@
             this.label10.TabIndex = 5;
             this.label10.Text = "Ergebniss";
             // 
+            // mutMethodCB
+            // 
+            this.mutMethodCB.FormattingEnabled = true;
+            this.mutMethodCB.Items.AddRange(new object[] {
+            "Klein",
+            "ganz"});
+            this.mutMethodCB.Location = new System.Drawing.Point(67, 22);
+            this.mutMethodCB.Name = "mutMethodCB";
+            this.mutMethodCB.Size = new System.Drawing.Size(143, 21);
+            this.mutMethodCB.TabIndex = 14;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.Radius);
+            this.groupBox2.Controls.Add(this.Methode);
+            this.groupBox2.Controls.Add(this.mutMethodCB);
+            this.groupBox2.Location = new System.Drawing.Point(26, 288);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(216, 82);
+            this.groupBox2.TabIndex = 6;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Mutation";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(110, 49);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(23, 20);
+            this.textBox1.TabIndex = 18;
+            this.textBox1.Text = "1";
+            // 
+            // Radius
+            // 
+            this.Radius.AutoSize = true;
+            this.Radius.Location = new System.Drawing.Point(6, 50);
+            this.Radius.Name = "Radius";
+            this.Radius.Size = new System.Drawing.Size(40, 13);
+            this.Radius.TabIndex = 17;
+            this.Radius.Text = "Radius";
+            // 
+            // Methode
+            // 
+            this.Methode.AutoSize = true;
+            this.Methode.Location = new System.Drawing.Point(6, 25);
+            this.Methode.Name = "Methode";
+            this.Methode.Size = new System.Drawing.Size(49, 13);
+            this.Methode.TabIndex = 15;
+            this.Methode.Text = "Methode";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Controls.Add(this.crossMetCB);
+            this.groupBox3.Location = new System.Drawing.Point(26, 376);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(229, 100);
+            this.groupBox3.TabIndex = 7;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Crossover";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(12, 22);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(49, 13);
+            this.label11.TabIndex = 17;
+            this.label11.Text = "Methode";
+            // 
+            // crossMetCB
+            // 
+            this.crossMetCB.FormattingEnabled = true;
+            this.crossMetCB.Items.AddRange(new object[] {
+            "1-Punkt",
+            "Uniform"});
+            this.crossMetCB.Location = new System.Drawing.Point(73, 19);
+            this.crossMetCB.Name = "crossMetCB";
+            this.crossMetCB.Size = new System.Drawing.Size(143, 21);
+            this.crossMetCB.TabIndex = 16;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(705, 381);
+            this.ClientSize = new System.Drawing.Size(705, 461);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.groupBox1);
@@ -256,6 +349,10 @@
             this.Text = "Sudoku, eine Evolutionäre Lösung";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -283,6 +380,14 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox mutMethodCB;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label Radius;
+        private System.Windows.Forms.Label Methode;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox crossMetCB;
     }
 }
 

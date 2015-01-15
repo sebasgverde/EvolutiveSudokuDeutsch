@@ -26,11 +26,11 @@ namespace Modell
 
         public void gluckRadSektorGrossRechnen(List<Sudoku> population)
         {
-            population[0].gluckRadSektorGross = (float)population[0].fitness / populationTotalFitnes;
+            population[0].gluckRadSektorGross = (double)population[0].fitness / populationTotalFitnes;
              
 
             for (int i = 1; i < population.Count; i++)
-                population[i].gluckRadSektorGross = ((float)population[i].fitness / populationTotalFitnes) + population[i-1].gluckRadSektorGross;
+                population[i].gluckRadSektorGross = ((double)population[i].fitness / populationTotalFitnes) + population[i - 1].gluckRadSektorGross;
 
             population[population.Count - 1].gluckRadSektorGross = 1; //besser wegen float can sein 0,999999999 statt 1, und rand can 1 sein
         }

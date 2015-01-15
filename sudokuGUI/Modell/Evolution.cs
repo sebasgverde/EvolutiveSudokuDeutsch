@@ -23,6 +23,9 @@ namespace Modell
         bool print = false;
         int generationIndex = 0;
 
+        int mutationMethode;
+        int crossoverMethode;
+
         public Evolution(String sud)
         {
             population = new List<Sudoku>();
@@ -34,7 +37,7 @@ namespace Modell
             run();           
         }
 
-        public Evolution(String sud, int popSize, int elit, int maxGen, int maxPop, int mutChanc, int crossovChanc)
+        public Evolution(String sud, int popSize, int elit, int maxGen, int maxPop, int mutChanc, int crossovChanc, int mutMet, int crossMet)
         {
             population = new List<Sudoku>();
             elites = new List<Sudoku>();
@@ -48,7 +51,43 @@ namespace Modell
             maxPopulation = maxPop;
             mutationChance = mutChanc;//%
             crossoverChance = crossovChanc;
+
+            mutationMethode = mutMet;
+            crossoverMethode = crossMet;
         }
+
+        public void mutationInterface(int methode, Sudoku s)
+        {
+            switch (methode)
+            {
+                case 0:
+                    kleinerMutationSwap(s);
+                    break;
+                case 1:
+                    teilMutationSwap(s);
+                    break;
+                default:
+                    kleinerMutationSwap(s);
+                    break;
+            }
+
+        }
+
+        public Sudoku[] crossoverInterface(int methode, int i, int j)
+        {
+            switch (methode)
+            {
+                case 0:
+                    return einfachRekombination(i, j);
+                case 1:
+                    return rekombinationVieleOrte(i, j);
+                default:
+                    return rekombinationVieleOrte(i, j);
+
+            }
+        }
+
+
 
         public String run()
         {
@@ -71,11 +110,12 @@ namespace Modell
 
                     if (natur.randomZahl(0, 100) < crossoverChance)
                     {
-                        Sudoku[] kinder = rekombinationVieleOrte(positions[0], positions[1]);
+                        Sudoku[] kinder = crossoverInterface(crossoverMethode, positions[0], positions[1]);
+                        //Sudoku[] kinder = rekombinationVieleOrte(positions[0], positions[1]);
 
                         if (natur.randomZahl(0, 100) < mutationChance)
-                            kleinerMutationSwap(kinder[natur.randomZahl(0,2)]);
-                            //teilMutationSwap(kinder[natur.randomZahl(0, 2)]);
+                            mutationInterface(mutationMethode, kinder[natur.randomZahl(0, 2)]);
+                        //teilMutationSwap(kinder[natur.randomZahl(0, 2)]);
 
                         einfugenInviduum(kinder[0], tempPopulation);
                         einfugenInviduum(kinder[1], tempPopulation);
@@ -117,7 +157,7 @@ namespace Modell
 
             printPopulation();
             Console.WriteLine(generationIndex);
-            Console.ReadLine();
+            //Console.ReadLine();
 
             Sudoku retSud = population[0].fitness > elites[0].fitness ? population[0] : elites[0];
 
