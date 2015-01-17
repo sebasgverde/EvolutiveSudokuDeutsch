@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.sudtxt = new System.Windows.Forms.TextBox();
-            this.RechnenBtn = new System.Windows.Forms.Button();
+            this.startBtn = new System.Windows.Forms.Button();
             this.resultTxt = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -63,6 +63,9 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.weiterSchrittBtn = new System.Windows.Forms.Button();
+            this.weiterGehenTxt = new System.Windows.Forms.Button();
+            this.shritteTxt = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -80,19 +83,19 @@
             this.sudtxt.Text = "080301004\r\n530674800\r\n006080700\r\n190832400\r\n003067095\r\n067000300\r\n008013040\r\n3005" +
     "06900\r\n674098031";
             // 
-            // RechnenBtn
+            // startBtn
             // 
-            this.RechnenBtn.Location = new System.Drawing.Point(319, 308);
-            this.RechnenBtn.Name = "RechnenBtn";
-            this.RechnenBtn.Size = new System.Drawing.Size(90, 22);
-            this.RechnenBtn.TabIndex = 1;
-            this.RechnenBtn.Text = "Rechnen";
-            this.RechnenBtn.UseVisualStyleBackColor = true;
-            this.RechnenBtn.Click += new System.EventHandler(this.RechnenBtn_Click);
+            this.startBtn.Location = new System.Drawing.Point(458, 30);
+            this.startBtn.Name = "startBtn";
+            this.startBtn.Size = new System.Drawing.Size(73, 22);
+            this.startBtn.TabIndex = 1;
+            this.startBtn.Text = "Beginnen";
+            this.startBtn.UseVisualStyleBackColor = true;
+            this.startBtn.Click += new System.EventHandler(this.startBtn_Click);
             // 
             // resultTxt
             // 
-            this.resultTxt.Location = new System.Drawing.Point(474, 61);
+            this.resultTxt.Location = new System.Drawing.Point(474, 75);
             this.resultTxt.Multiline = true;
             this.resultTxt.Name = "resultTxt";
             this.resultTxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -254,7 +257,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(471, 40);
+            this.label10.Location = new System.Drawing.Point(471, 59);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(53, 13);
             this.label10.TabIndex = 5;
@@ -416,11 +419,42 @@
             this.textBox1.Size = new System.Drawing.Size(202, 198);
             this.textBox1.TabIndex = 21;
             // 
+            // weiterSchrittBtn
+            // 
+            this.weiterSchrittBtn.Location = new System.Drawing.Point(537, 30);
+            this.weiterSchrittBtn.Name = "weiterSchrittBtn";
+            this.weiterSchrittBtn.Size = new System.Drawing.Size(75, 23);
+            this.weiterSchrittBtn.TabIndex = 22;
+            this.weiterSchrittBtn.Text = "->";
+            this.weiterSchrittBtn.UseVisualStyleBackColor = true;
+            this.weiterSchrittBtn.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // weiterGehenTxt
+            // 
+            this.weiterGehenTxt.Location = new System.Drawing.Point(618, 30);
+            this.weiterGehenTxt.Name = "weiterGehenTxt";
+            this.weiterGehenTxt.Size = new System.Drawing.Size(75, 23);
+            this.weiterGehenTxt.TabIndex = 23;
+            this.weiterGehenTxt.Text = ">>>";
+            this.weiterGehenTxt.UseVisualStyleBackColor = true;
+            this.weiterGehenTxt.Click += new System.EventHandler(this.weiterGehenTxt_Click);
+            // 
+            // shritteTxt
+            // 
+            this.shritteTxt.Location = new System.Drawing.Point(521, 4);
+            this.shritteTxt.Name = "shritteTxt";
+            this.shritteTxt.Size = new System.Drawing.Size(100, 20);
+            this.shritteTxt.TabIndex = 24;
+            this.shritteTxt.Text = "1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(705, 586);
+            this.Controls.Add(this.shritteTxt);
+            this.Controls.Add(this.weiterGehenTxt);
+            this.Controls.Add(this.weiterSchrittBtn);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox4);
@@ -430,7 +464,7 @@
             this.Controls.Add(this.label9);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.resultTxt);
-            this.Controls.Add(this.RechnenBtn);
+            this.Controls.Add(this.startBtn);
             this.Controls.Add(this.sudtxt);
             this.Name = "Form1";
             this.Text = "Sudoku, eine Evolutionäre Lösung";
@@ -450,7 +484,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox sudtxt;
-        private System.Windows.Forms.Button RechnenBtn;
+        private System.Windows.Forms.Button startBtn;
         private System.Windows.Forms.TextBox resultTxt;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label5;
@@ -484,6 +518,9 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Button weiterSchrittBtn;
+        private System.Windows.Forms.Button weiterGehenTxt;
+        private System.Windows.Forms.TextBox shritteTxt;
     }
 }
 

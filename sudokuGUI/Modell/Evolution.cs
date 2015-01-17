@@ -36,9 +36,7 @@ namespace Modell
             elites = new List<Sudoku>();
             fitn = new Fitness();
             natur = new Natur();
-            serGrundSudStr(sud);
-
-            run();           
+            serGrundSudStr(sud);          
         }
 
         /// <summary>
@@ -72,9 +70,6 @@ namespace Modell
             mutationMethode = mutMet;
             mutationRadius = mutRad;
             crossoverMethode = crossMet;
-
-            erstePoblation(populationSize);
-            einfugenInviduum(population[0], elites);
         }
 
         public void mutationInterface(int methode, Sudoku s)
@@ -111,78 +106,104 @@ namespace Modell
             }
         }
 
+        public int aktuelFit = 0;
+        public int besteFit = 0;
 
+        public int generationenOhneVerbesserung = 0;
 
-        public String run()
+        public void start()
         {
-            int aktuelFit = 0;
-            int besteFit = 0;
+            generationIndex = 0;
+            erstePoblation(populationSize);
+            einfugenInviduum(population[0], elites);
 
-            int generationenOhneVerbesserung = 0;
-            generationIndex = 1;
+            aktuelFit = 0;
+            besteFit = 0;
+
+            generationenOhneVerbesserung = 0;
+        }
+
+        public String weiterGehenBisEnde()
+        {
             while (aktuelFit < zielFitness && generationIndex < maxGenerations)
             {
-                //elites.Add(population[0]);
-                List<Sudoku> tempPopulation = new List<Sudoku>();
-                while (tempPopulation.Count < maxPopulation)
-                {
-                    int[] positions = selektionRekombination();
-
-                    if (natur.randomZahl(0, 100) < crossoverChance)
-                    {
-                        Sudoku[] kinder = crossoverInterface(crossoverMethode, positions[0], positions[1]);
-                        //Sudoku[] kinder = rekombinationVieleOrte(positions[0], positions[1]);
-
-                        if (natur.randomZahl(0, 100) < mutationChance)
-                            mutationInterface(mutationMethode, kinder[natur.randomZahl(0, 2)]);
-                        //teilMutationSwap(kinder[natur.randomZahl(0, 2)]);
-
-                        einfugenInviduum(kinder[0], tempPopulation);
-                        einfugenInviduum(kinder[1], tempPopulation);
-                    }
-                    else 
-                    {
-                        einfugenInviduum(population[positions[0]], tempPopulation);
-                        einfugenInviduum(population[positions[1]], tempPopulation);
-                    }
-
-                }
-
-                population.Clear();
-                population = tempPopulation;
-                
-                /*mutation mit selektion
-                int posSel = selektion();
-
-
-                if (print) Console.WriteLine("\nMutation nummer " + generationIndex);
-                if (print) Console.WriteLine("\nRekombination nummer " + generationIndex);*/
-
-                aktuelFit = population[0].fitness;
-                if (aktuelFit > besteFit) { besteFit = aktuelFit; generationenOhneVerbesserung = 0; }
-                else generationenOhneVerbesserung++;
-
-                if (generationenOhneVerbesserung > 15)
-                {
-                    //break;
-                    //superMutation();
-                    restart(1); besteFit = 0;
-                    //foreach(Sudoku s in elites)
-                      //  einfugenInviduum(s,population);
-                    Console.WriteLine(":'(");
-                    generationenOhneVerbesserung = 0;
-                }
-                generationIndex++;
+                shrittEvol();
             }
 
             //printPopulation();
             Console.WriteLine(generationIndex);
             //Console.ReadLine();
 
+            return getBesteSudPop();
+        }
+
+        public String weiterGehenNSchritte(int shritte)
+        {
+            int i = 0;
+            while (aktuelFit < zielFitness && i++ < shritte)
+            {
+                shrittEvol();                
+            }
+
+            //printPopulation();
+            Console.WriteLine(generationIndex);
+            //Console.ReadLine();
+
+            return getBesteSudPop();
+        }
+
+        public string getBesteSudPop()
+        {
             Sudoku retSud = population[0].fitness > elites[0].fitness ? population[0] : elites[0];
-
-
             return (retSud.sudToString() + schauFitness(retSud) + "\nGeneration Nummer: " + generationIndex);
+        }
+
+        public void shrittEvol()
+        {
+            //elites.Add(population[0]);
+            List<Sudoku> tempPopulation = new List<Sudoku>();
+            while (tempPopulation.Count < maxPopulation)
+            {
+                int[] positions = selektionRekombination();
+
+                if (natur.randomZahl(0, 100) < crossoverChance)
+                {
+                    Sudoku[] kinder = crossoverInterface(crossoverMethode, positions[0], positions[1]);
+                    //Sudoku[] kinder = rekombinationVieleOrte(positions[0], positions[1]);
+
+                    if (natur.randomZahl(0, 100) < mutationChance)
+                        mutationInterface(mutationMethode, kinder[natur.randomZahl(0, 2)]);
+                    //teilMutationSwap(kinder[natur.randomZahl(0, 2)]);
+
+                    einfugenInviduum(kinder[0], tempPopulation);
+                    einfugenInviduum(kinder[1], tempPopulation);
+                }
+                else
+                {
+                    einfugenInviduum(population[positions[0]], tempPopulation);
+                    einfugenInviduum(population[positions[1]], tempPopulation);
+                }
+
+            }
+
+            population.Clear();
+            population = tempPopulation;
+
+            aktuelFit = population[0].fitness;
+            if (aktuelFit > besteFit) { besteFit = aktuelFit; generationenOhneVerbesserung = 0; }
+            else generationenOhneVerbesserung++;
+
+            if (generationenOhneVerbesserung > 15)
+            {
+                //break;
+                //superMutation();
+                restart(1); besteFit = 0;
+                //foreach(Sudoku s in elites)
+                //  einfugenInviduum(s,population);
+                Console.WriteLine(":'(");
+                generationenOhneVerbesserung = 0;
+            }
+            generationIndex++;
         }
 
         /// <summary>
