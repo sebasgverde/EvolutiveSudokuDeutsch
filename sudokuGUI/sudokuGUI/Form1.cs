@@ -55,5 +55,14 @@ namespace sudokuGUI
             genFitTxt.Text = evo.printFitnessGenerationen().Replace("\n", "\r\n");
             textBox1.Text = evo.printElites().Replace("\n", "\r\n");
         }
+
+        public void updateP()
+        {
+            evo.updateParameters(Convert.ToInt32(popSizTxt.Text), Convert.ToInt32(eliteTxt.Text), Convert.ToInt32(maxGenTxt.Text), Convert.ToInt32(maxPopTxt.Text), Convert.ToInt32(mutChanTxt.Text), Convert.ToInt32(crroChanTxt.Text), mutMethodCB.SelectedIndex, Convert.ToInt32(mutRadTxt.Text), crossMetCB.SelectedIndex);
+        }
+        private void popSizTxt_TextChanged(object sender, EventArgs e)
+        {
+            updateP();
+        }
     }
 }

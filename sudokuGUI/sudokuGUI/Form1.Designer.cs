@@ -167,6 +167,7 @@
             this.crroChanTxt.Size = new System.Drawing.Size(31, 20);
             this.crroChanTxt.TabIndex = 10;
             this.crroChanTxt.Text = "50";
+            this.crroChanTxt.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
             // 
             // label5
             // 
@@ -184,6 +185,7 @@
             this.mutChanTxt.Size = new System.Drawing.Size(31, 20);
             this.mutChanTxt.TabIndex = 8;
             this.mutChanTxt.Text = "5";
+            this.mutChanTxt.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
             // 
             // label4
             // 
@@ -201,6 +203,7 @@
             this.maxPopTxt.Size = new System.Drawing.Size(100, 20);
             this.maxPopTxt.TabIndex = 6;
             this.maxPopTxt.Text = "3000";
+            this.maxPopTxt.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
             // 
             // label3
             // 
@@ -218,6 +221,7 @@
             this.maxGenTxt.Size = new System.Drawing.Size(100, 20);
             this.maxGenTxt.TabIndex = 4;
             this.maxGenTxt.Text = "500";
+            this.maxGenTxt.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
             // 
             // label2
             // 
@@ -235,6 +239,7 @@
             this.eliteTxt.Size = new System.Drawing.Size(100, 20);
             this.eliteTxt.TabIndex = 2;
             this.eliteTxt.Text = "150";
+            this.eliteTxt.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
             // 
             // label1
             // 
@@ -252,6 +257,7 @@
             this.popSizTxt.Size = new System.Drawing.Size(100, 20);
             this.popSizTxt.TabIndex = 0;
             this.popSizTxt.Text = "3000";
+            this.popSizTxt.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
             // 
             // label9
             // 
@@ -282,6 +288,7 @@
             this.mutMethodCB.Name = "mutMethodCB";
             this.mutMethodCB.Size = new System.Drawing.Size(143, 21);
             this.mutMethodCB.TabIndex = 14;
+            this.mutMethodCB.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
             // 
             // groupBox2
             // 
@@ -303,6 +310,7 @@
             this.mutRadTxt.Size = new System.Drawing.Size(23, 20);
             this.mutRadTxt.TabIndex = 18;
             this.mutRadTxt.Text = "1";
+            this.mutRadTxt.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
             // 
             // Radius
             // 
@@ -352,6 +360,7 @@
             this.crossMetCB.Name = "crossMetCB";
             this.crossMetCB.Size = new System.Drawing.Size(143, 21);
             this.crossMetCB.TabIndex = 16;
+            this.crossMetCB.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
             // 
             // groupBox4
             // 
@@ -377,6 +386,7 @@
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(143, 21);
             this.comboBox2.TabIndex = 18;
+            this.comboBox2.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
             // 
             // label12
             // 
@@ -407,6 +417,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(143, 21);
             this.comboBox1.TabIndex = 14;
+            this.comboBox1.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
             // 
             // textBox1
             // 

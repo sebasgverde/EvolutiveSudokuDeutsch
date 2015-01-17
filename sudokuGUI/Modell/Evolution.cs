@@ -72,6 +72,20 @@ namespace Modell
             crossoverMethode = crossMet;
         }
 
+        public void updateParameters(int popSize, int elit, int maxGen, int maxPop, int mutChanc, int crossovChanc, int mutMet, int mutRad, int crossMet)
+        {
+            populationSize = popSize;
+            elite = elit;
+            maxGenerations = maxGen;
+            maxPopulation = maxPop;
+            mutationChance = mutChanc;//%
+            crossoverChance = crossovChanc;
+
+            mutationMethode = mutMet;
+            mutationRadius = mutRad;
+            crossoverMethode = crossMet;
+        }
+
         public void mutationInterface(int methode, Sudoku s)
         {
             switch (methode)
