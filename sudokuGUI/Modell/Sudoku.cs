@@ -81,7 +81,13 @@ namespace Modell
             String b = "";
             for (int i = 0; i < sudokuStr.Length; i++)
             {
-                b += sudokuStr[i] + "\n";
+                if (i == 3 || i == 6) b += "--- --- ---\n";
+                for (int j = 0; j < 9; j++)
+                {
+                    if (j == 3 || j == 6) b += "|";
+                    b += sudokuStr[i][j];
+                }
+                b += "\n";
             }
             return b;
         }

@@ -24,7 +24,7 @@
             <param name="mutRad"></param>
             <param name="crossMet"></param>
         </member>
-        <member name="M:Modell.Evolution.printPopulation">
+        <member name="M:Modell.Evolution.printElites">
             <summary>
             Macht ein String mit die Sudokus in Fitness Array, diese sind die beste von jeder Versuch
             </summary>

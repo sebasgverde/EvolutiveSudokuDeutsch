@@ -27,24 +27,33 @@ namespace sudokuGUI
             resultTxt.Text = evo.getBesteSudPop().Replace("\n", "\r\n");
             //resultTxt.Text = evo.run().Replace("\n", "\r\n");
             //evo.run();
+            updateStatistic();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
            /* evo.restart(0);
             resultTxt.Text = evo.run().Replace("\n", "\r\n");*/
-            textBox1.Text=evo.printPopulation().Replace("\n", "\r\n");
+            textBox1.Text=evo.printElites().Replace("\n", "\r\n");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {             
              resultTxt.Text = evo.weiterGehenNSchritte(Convert.ToInt32(shritteTxt.Text)).Replace("\n", "\r\n");
+             updateStatistic();
         }
 
         private void weiterGehenTxt_Click(object sender, EventArgs e)
         {
-            ;
             resultTxt.Text = evo.weiterGehenBisEnde().Replace("\n", "\r\n");
+            updateStatistic();
+        }
+
+        private void updateStatistic()
+        {
+            popFitTxt.Text = evo.printFitnesPop().Replace("\n", "\r\n");
+            genFitTxt.Text = evo.printFitnessGenerationen().Replace("\n", "\r\n");
+            textBox1.Text = evo.printElites().Replace("\n", "\r\n");
         }
     }
 }

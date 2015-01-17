@@ -117,7 +117,8 @@ namespace Modell
             erstePoblation(populationSize);
             einfugenInviduum(population[0], elites);
 
-            aktuelFit = 0;
+            aktuelFit = population[0].fitness;
+            fitnesGeneration.Add(aktuelFit);
             besteFit = 0;
 
             generationenOhneVerbesserung = 0;
@@ -203,6 +204,7 @@ namespace Modell
                 Console.WriteLine(":'(");
                 generationenOhneVerbesserung = 0;
             }
+            fitnesGeneration.Add(aktuelFit);
             generationIndex++;
         }
 
@@ -210,7 +212,7 @@ namespace Modell
         /// Macht ein String mit die Sudokus in Fitness Array, diese sind die beste von jeder Versuch
         /// </summary>
         /// <returns>String representation die alle Elites</returns>
-        public String printPopulation()
+        public String printElites()
         {
             String a = "";
             int i = 0;
@@ -222,6 +224,32 @@ namespace Modell
             }
             return a;
         }
+        public String printFitnesPop()
+        {
+            String ind = "";
+            int i = 0;
+
+            foreach (Sudoku s in population)//population.GetRange(0,15).Reverse<Sudoku>())
+            {
+                ind += ("Ind " + (i++) + " " + s.fitness + "\n");
+                //fit += (s.fitness + " ");
+            }
+            return ind + "\n";
+        }
+
+        public List<int> fitnesGeneration = new List<int>();
+        public String printFitnessGenerationen()
+        {
+            String ind = "";
+            int i = 0;
+            foreach (int s in fitnesGeneration)//population.GetRange(0,15).Reverse<Sudoku>())
+            {
+                ind += ("Gen " + (i++) + " " + s + "\n");
+                //fit += (s.fitness + " ");
+            }
+            return ind + "\n";
+        }
+
         public String schauFitness(Sudoku sud)
         {
             String ret = "";
@@ -449,7 +477,7 @@ namespace Modell
             //return new int[] {natur.randomPos(population.Count),0};
             //return new int[] { natur.randomPosPopulation(elite), natur.RouletteSelektion(population) };
             //return new int[] { natur.RouletteSelektion(population), natur.RouletteSelektion(population) };
-            return new int[] { natur.randomPosPopulation(population.Count), natur.turnierSelektion(50,population) };//turnier
+            return new int[] { natur.randomPosPopulation(population.Count), natur.turnierSelektion(20,population) };//turnier
         }
 
 

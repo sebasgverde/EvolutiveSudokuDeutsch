@@ -61,15 +61,22 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.weiterSchrittBtn = new System.Windows.Forms.Button();
             this.weiterGehenTxt = new System.Windows.Forms.Button();
             this.shritteTxt = new System.Windows.Forms.TextBox();
+            this.popFitTxt = new System.Windows.Forms.TextBox();
+            this.genFitTxt = new System.Windows.Forms.TextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // sudtxt
@@ -95,6 +102,7 @@
             // 
             // resultTxt
             // 
+            this.resultTxt.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.resultTxt.Location = new System.Drawing.Point(474, 75);
             this.resultTxt.Multiline = true;
             this.resultTxt.Name = "resultTxt";
@@ -400,23 +408,14 @@
             this.comboBox1.Size = new System.Drawing.Size(143, 21);
             this.comboBox1.TabIndex = 14;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(319, 376);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(90, 22);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "Elites";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(474, 376);
+            this.textBox1.Font = new System.Drawing.Font("Lucida Console", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(6, 3);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(202, 198);
+            this.textBox1.Size = new System.Drawing.Size(225, 198);
             this.textBox1.TabIndex = 21;
             // 
             // weiterSchrittBtn
@@ -447,16 +446,66 @@
             this.shritteTxt.TabIndex = 24;
             this.shritteTxt.Text = "1";
             // 
+            // popFitTxt
+            // 
+            this.popFitTxt.Location = new System.Drawing.Point(3, 6);
+            this.popFitTxt.Multiline = true;
+            this.popFitTxt.Name = "popFitTxt";
+            this.popFitTxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.popFitTxt.Size = new System.Drawing.Size(107, 195);
+            this.popFitTxt.TabIndex = 25;
+            // 
+            // genFitTxt
+            // 
+            this.genFitTxt.Location = new System.Drawing.Point(119, 6);
+            this.genFitTxt.Multiline = true;
+            this.genFitTxt.Name = "genFitTxt";
+            this.genFitTxt.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.genFitTxt.Size = new System.Drawing.Size(109, 194);
+            this.genFitTxt.TabIndex = 26;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(434, 376);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(242, 233);
+            this.tabControl1.TabIndex = 27;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.genFitTxt);
+            this.tabPage1.Controls.Add(this.popFitTxt);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(234, 207);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Fitness";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(234, 207);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Beste jedes Versuchs";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(705, 586);
+            this.ClientSize = new System.Drawing.Size(705, 621);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.shritteTxt);
             this.Controls.Add(this.weiterGehenTxt);
             this.Controls.Add(this.weiterSchrittBtn);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -476,6 +525,11 @@
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -516,11 +570,15 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button weiterSchrittBtn;
         private System.Windows.Forms.Button weiterGehenTxt;
         private System.Windows.Forms.TextBox shritteTxt;
+        private System.Windows.Forms.TextBox popFitTxt;
+        private System.Windows.Forms.TextBox genFitTxt;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
     }
 }
 
