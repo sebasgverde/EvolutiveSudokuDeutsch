@@ -10,3 +10,4 @@ D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung
 D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung\sudoku\sudokuConsole\sudokuConsole\bin\Debug\sudokuConsole.pdb
 D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung\sudoku\sudokuConsole\sudokuConsole\bin\Debug\Modell.dll
 D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung\sudoku\sudokuConsole\sudokuConsole\bin\Debug\Modell.pdb
+D:\Dropbox\TU Ilmenau\Materias\KE Evolutionäre Verfahren\beispielimplementirung\sudoku\sudokuConsole\sudokuConsole\bin\Debug\Modell.xml

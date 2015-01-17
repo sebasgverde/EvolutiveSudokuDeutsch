@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Modell</name>
+    </assembly>
+    <members>
+        <member name="T:Modell.Evolution">
+            <summary>
+            Haupt class hier haben wir die Definitionen fÜr den ganzen Program
+            </summary>
+        </member>
+        <member name="M:Modell.Evolution.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="sud">sud in Stringformat</param>
+            <param name="popSize">Grösse der erste Population</param>
+            <param name="elit">Nummer elites</param>
+            <param name="maxGen">Maximun Generationen</param>
+            <param name="maxPop"></param>
+            <param name="mutChanc"></param>
+            <param name="crossovChanc"></param>
+            <param name="mutMet"></param>
+            <param name="mutRad"></param>
+            <param name="crossMet"></param>
+        </member>
+        <member name="M:Modell.Evolution.printPopulation">
+            <summary>
+            Macht ein String mit die Sudokus in Fitness Array, diese sind die beste von jeder Versuch
+            </summary>
+            <returns>String representation die alle Elites</returns>
+        </member>
+    </members>
+</doc>

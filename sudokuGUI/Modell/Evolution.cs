@@ -5,11 +5,14 @@ using System.Text;
 
 namespace Modell
 {
+    /// <summary>
+    /// Haupt class hier haben wir die Definitionen fÜr den ganzen Program
+    /// </summary>
     public class Evolution
     {
         List<Sudoku> population;
         List<Sudoku> elites;
-        List<Sudoku> eltern;
+        //List<Sudoku> eltern;
         Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
@@ -38,6 +41,19 @@ namespace Modell
             run();           
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sud">sud in Stringformat</param>
+        /// <param name="popSize">Grösse der erste Population</param>
+        /// <param name="elit">Nummer elites</param>
+        /// <param name="maxGen">Maximun Generationen</param>
+        /// <param name="maxPop"></param>
+        /// <param name="mutChanc"></param>
+        /// <param name="crossovChanc"></param>
+        /// <param name="mutMet"></param>
+        /// <param name="mutRad"></param>
+        /// <param name="crossMet"></param>
         public Evolution(String sud, int popSize, int elit, int maxGen, int maxPop, int mutChanc, int crossovChanc, int mutMet, int mutRad, int crossMet)
         {
             population = new List<Sudoku>();
@@ -169,6 +185,10 @@ namespace Modell
             return (retSud.sudToString() + schauFitness(retSud) + "\nGeneration Nummer: " + generationIndex);
         }
 
+        /// <summary>
+        /// Macht ein String mit die Sudokus in Fitness Array, diese sind die beste von jeder Versuch
+        /// </summary>
+        /// <returns>String representation die alle Elites</returns>
         public String printPopulation()
         {
             String a = "";
@@ -408,7 +428,7 @@ namespace Modell
             //return new int[] {natur.randomPos(population.Count),0};
             //return new int[] { natur.randomPosPopulation(elite), natur.RouletteSelektion(population) };
             //return new int[] { natur.RouletteSelektion(population), natur.RouletteSelektion(population) };
-            return new int[] { natur.randomPosPopulation(population.Count), natur.turnierSelektion(10,population) };//turnier
+            return new int[] { natur.randomPosPopulation(population.Count), natur.turnierSelektion(50,population) };//turnier
         }
 
 
