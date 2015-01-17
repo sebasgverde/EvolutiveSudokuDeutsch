@@ -28,17 +28,15 @@ namespace Modell
 
         int mutationMethode;
         int mutationRadius;
+        
         int crossoverMethode;
 
-        public Evolution(String sud)
-        {
-            population = new List<Sudoku>();
-            elites = new List<Sudoku>();
-            fitn = new Fitness();
-            natur = new Natur();
-            serGrundSudStr(sud);          
-        }
+        int selektionMethode;
+        int turnierTeilnhemer;
 
+        int restartMethode;
+        int restartTolleranz;
+        
         /// <summary>
         /// 
         /// </summary>
@@ -52,24 +50,13 @@ namespace Modell
         /// <param name="mutMet"></param>
         /// <param name="mutRad"></param>
         /// <param name="crossMet"></param>
-        public Evolution(String sud, int popSize, int elit, int maxGen, int maxPop, int mutChanc, int crossovChanc, int mutMet, int mutRad, int crossMet)
+        public Evolution(String sud)
         {
             population = new List<Sudoku>();
             elites = new List<Sudoku>();
             fitn = new Fitness();
             natur = new Natur();
             serGrundSudStr(sud);
-
-            populationSize = popSize;
-            elite = elit;
-            maxGenerations = maxGen;
-            maxPopulation = maxPop;
-            mutationChance = mutChanc;//%
-            crossoverChance = crossovChanc;
-
-            mutationMethode = mutMet;
-            mutationRadius = mutRad;
-            crossoverMethode = crossMet;
         }
 
         public void updateParameters(int popSize, int elit, int maxGen, int maxPop, int mutChanc, int crossovChanc, int mutMet, int mutRad, int crossMet)
@@ -84,6 +71,31 @@ namespace Modell
             mutationMethode = mutMet;
             mutationRadius = mutRad;
             crossoverMethode = crossMet;
+        }
+
+        public void updateRestart(int met, int tolleranz)
+        {
+            restartMethode = met;
+            restartTolleranz = tolleranz;
+        }
+
+        public void restartInterface()
+        {
+            switch (restartMethode)
+            {
+                case 0:
+                    restart(1);
+                    break;
+                case 1:
+                    //nichts
+                    break;
+                case 2:
+                    superMutation();
+                    break;
+                default:
+                    restart(1);
+                    break;
+            }
         }
 
         public void mutationInterface(int methode, Sudoku s)
@@ -101,7 +113,7 @@ namespace Modell
                     break;
                 default:
                     mutationSwap(s);
-                    break;;
+                    break;
             }
 
         }
@@ -208,11 +220,10 @@ namespace Modell
             if (aktuelFit > besteFit) { besteFit = aktuelFit; generationenOhneVerbesserung = 0; }
             else generationenOhneVerbesserung++;
 
-            if (generationenOhneVerbesserung > 15)
+            if (generationenOhneVerbesserung > restartTolleranz)
             {
                 //break;
-                //superMutation();
-                restart(1); besteFit = 0;
+                restartInterface();
                 //foreach(Sudoku s in elites)
                 //  einfugenInviduum(s,population);
                 Console.WriteLine(":'(");
@@ -289,10 +300,12 @@ namespace Modell
 
         public void superMutation()
         {
-            for(int i = 1; i < population.Count; i++)
-                if(population[i].fitness == population[i-1].fitness)
-                //if (natur.randomZahl(0, 100) < 100-mutationChance)
-                kleinerMutationSwap(population[i]);
+            int j = 0;
+            for (int i = 1; i < population.Count; i++)
+                if (population[i].fitness == population[j].fitness)
+                    //if (natur.randomZahl(0, 100) < 100-mutationChance)
+                    mutationSwap(population[i]);
+                else j=i;
         }
 
         public void restart(int fall)
@@ -486,12 +499,29 @@ namespace Modell
             return natur.randomPosLoeschenElite(elite - 1, population.Count - 1);
         }
 
+        public void selektionUpdate(int selM, int turnTeil)
+        {
+            selektionMethode = selM;
+            turnierTeilnhemer = turnTeil;
+        }
+
+        public int selektionInterface()
+        {
+            switch (selektionMethode)
+            {
+                case 0:
+                    return natur.turnierSelektion(turnierTeilnhemer, population);
+                case 1:
+                    return natur.RouletteSelektion(population);
+                default:
+                    return natur.turnierSelektion(turnierTeilnhemer, population);
+            }
+        }
+
         public int[] selektionRekombination()
         {
-            //return new int[] {natur.randomPos(population.Count),0};
-            //return new int[] { natur.randomPosPopulation(elite), natur.RouletteSelektion(population) };
-            //return new int[] { natur.RouletteSelektion(population), natur.RouletteSelektion(population) };
-            return new int[] { natur.randomPosPopulation(population.Count), natur.turnierSelektion(20,population) };//turnier
+
+            return new int[] { natur.randomPosPopulation(population.Count), selektionInterface() };//turnier
         }
 
 

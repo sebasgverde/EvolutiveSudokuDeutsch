@@ -9,7 +9,7 @@
             Haupt class hier haben wir die Definitionen fÜr den ganzen Program
             </summary>
         </member>
-        <member name="M:Modell.Evolution.#ctor(System.String,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)">
+        <member name="M:Modell.Evolution.#ctor(System.String)">
             <summary>
             
             </summary>

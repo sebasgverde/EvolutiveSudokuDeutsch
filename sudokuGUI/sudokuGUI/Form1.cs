@@ -17,12 +17,20 @@ namespace sudokuGUI
         public Form1()
         {
             InitializeComponent();
+            String sud = sudtxt.Text;
+            evo = new Evolution(sud);
+
+            mutMethodCB.SelectedIndex = 0;
+            crossMetCB.SelectedIndex = 1;
+            selMethoCB.SelectedIndex = 0;
+            methodeRestCB.SelectedIndex = 0;
         }
 
         private void startBtn_Click(object sender, EventArgs e)
         {
             String sud = sudtxt.Text;
-            evo = new Evolution(sud, Convert.ToInt32(popSizTxt.Text), Convert.ToInt32(eliteTxt.Text), Convert.ToInt32(maxGenTxt.Text), Convert.ToInt32(maxPopTxt.Text), Convert.ToInt32(mutChanTxt.Text), Convert.ToInt32(crroChanTxt.Text),mutMethodCB.SelectedIndex, Convert.ToInt32(mutRadTxt.Text), crossMetCB.SelectedIndex);
+            evo = new Evolution(sud);
+            updateP();
             evo.start();
             resultTxt.Text = evo.getBesteSudPop().Replace("\n", "\r\n");
             //resultTxt.Text = evo.run().Replace("\n", "\r\n");
@@ -59,10 +67,23 @@ namespace sudokuGUI
         public void updateP()
         {
             evo.updateParameters(Convert.ToInt32(popSizTxt.Text), Convert.ToInt32(eliteTxt.Text), Convert.ToInt32(maxGenTxt.Text), Convert.ToInt32(maxPopTxt.Text), Convert.ToInt32(mutChanTxt.Text), Convert.ToInt32(crroChanTxt.Text), mutMethodCB.SelectedIndex, Convert.ToInt32(mutRadTxt.Text), crossMetCB.SelectedIndex);
+            evo.selektionUpdate(selMethoCB.SelectedIndex, Convert.ToInt32(turnIndTxt.Text));
+            evo.updateRestart(methodeRestCB.SelectedIndex, Convert.ToInt32(restartGeneTxt.Text));
         }
         private void popSizTxt_TextChanged(object sender, EventArgs e)
         {
             updateP();
         }
+
+        private void selMethoCB_TextChanged(object sender, EventArgs e)
+        {
+            updateP();
+        }
+
+        private void methodeRestCB_TextChanged(object sender, EventArgs e)
+        {
+            updateP();
+        }
+
     }
 }
