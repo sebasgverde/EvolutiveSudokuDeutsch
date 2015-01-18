@@ -1,5 +1,8 @@
 ﻿namespace sudokuGUI
 {
+    /// <summary>
+    /// In diesem class sind alle die Parameter für das GUI
+    /// </summary>
     partial class Form1
     {
         /// <summary>

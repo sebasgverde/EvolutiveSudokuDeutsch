@@ -5,16 +5,23 @@ using System.Text;
 
 namespace Modell
 {
-    /*diese muss auch andern. Wir haben in jeder Chromosom alle Zahle von 1 bis 9, deshalb seines Fitness
- ist immer 9. Interessant für uns ist das Fitness von die Säule und sub matrix*/
+    
+    /// <summary>
+    /// diese muss auch andern. Wir haben in jeder Chromosom alle Zahle von 1 bis 9, deshalb seines Fitness
+    /// ist immer 9. Interessant für uns ist das Fitness von die Säule und sub matrix
+    /// </summary>
     class Fitness
     {
         public Fitness()
         { }
 
-        /*Ich benutze ein Array mit Booleans, wenn cr einen nummer hat, dann werde es ein 1 in dieser Position geben
- * hier das maximal fitness ist 9 (hat die 9 nummer)
- */
+        /// <summary>
+        /// Ich benutze ein Array mit Booleans, wenn cr einen nummer hat, dann werde es ein 1 in dieser Position geben
+        /// hier das maximal fitness ist 9 (hat die 9 nummer)
+        /// </summary>
+        /// <param name="k">Index Spalte in Sudoku Repräsentation</param>
+        /// <param name="sud">Sudoku Repräsentation</param>
+        /// <returns>Fitness diese Spalte</returns>
         public int fitnessSaule(int k, String[] sud)//Säule
         {
             int[] numbers = new int[9];
@@ -31,6 +38,15 @@ namespace Modell
 
             return fitness;
         }
+
+        /// <summary>
+        /// Ich benutze ein Array mit Booleans, wenn cr einen nummer hat, dann werde es ein 1 in dieser Position geben
+        /// hier das maximal fitness ist 9 (hat die 9 nummer)
+        /// </summary>
+        /// <param name="sud">Sudoku Repräsentation</param>
+        /// <param name="i">Index sub matrix in Sudoku Repräsentation</param>
+        /// <param name="j">Index sub matrix in Sudoku Repräsentation</param>
+        /// <returns>Fitness diese sub matrix</returns>
         public int fitnessSubMat(String[] sud, int i, int j)
         {
             int[] numbers = new int[9];

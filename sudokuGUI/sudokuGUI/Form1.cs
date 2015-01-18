@@ -13,7 +13,14 @@ namespace sudokuGUI
 {
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Objekt des class Evolution wo wir alle data haben
+        /// </summary>
         public Evolution evo;
+
+        /// <summary>
+        /// Hier lesen wir die Eingabe, und sende diese Sudoku als String nachevo
+        /// </summary>
         public Form1()
         {
             InitializeComponent();
@@ -64,7 +71,7 @@ namespace sudokuGUI
             textBox1.Text = evo.printElites().Replace("\n", "\r\n");
         }
 
-        public void updateP()
+        private void updateP()
         {
             evo.updateParameters(Convert.ToInt32(popSizTxt.Text), Convert.ToInt32(eliteTxt.Text), Convert.ToInt32(maxGenTxt.Text), Convert.ToInt32(maxPopTxt.Text), Convert.ToInt32(mutChanTxt.Text), Convert.ToInt32(crroChanTxt.Text), mutMethodCB.SelectedIndex, Convert.ToInt32(mutRadTxt.Text), crossMetCB.SelectedIndex);
             evo.selektionUpdate(selMethoCB.SelectedIndex, Convert.ToInt32(turnIndTxt.Text));

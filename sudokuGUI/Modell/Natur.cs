@@ -3,12 +3,21 @@ using System.Collections.Generic;
 
 namespace Modell
 {
+    /// <summary>
+    /// Class mit Haupt Methoden für Mutation, Crossover und Selektion
+    /// </summary>
     class Natur
     {
         private const int GROESS = 9;
 
+        /// <summary>
+        /// Matrix mit der Eingabe, es benutzt wird, um zu wissen, welche werte feste sind
+        /// </summary>
         public String[] matFest;
         Random rand;
+        /// <summary>
+        /// Fitness total der Population, für Glückradswahl Selektion
+        /// </summary>
         public int populationTotalFitnes;
 
         public Natur()
@@ -17,6 +26,11 @@ namespace Modell
             matFest = new String[GROESS];
         }
 
+
+        /// <summary>
+        /// Es rechnet die Total Fitnes eine Population
+        /// </summary>
+        /// <param name="population">Liste von sudokus</param>
         public void populationTotalFitnessRechnen(List<Sudoku> population)
         { 
             populationTotalFitnes = 0;
@@ -24,6 +38,10 @@ namespace Modell
                 populationTotalFitnes += su.fitness;
         }
 
+        /// <summary>
+        /// Für jedes Sudoku in eine Liste rechnet es den Sektor Gröss
+        /// </summary>
+        /// <param name="population">Liste von sudoku</param>
         public void gluckRadSektorGrossRechnen(List<Sudoku> population)
         {
             population[0].gluckRadSektorGross = (double)population[0].fitness / populationTotalFitnes;
@@ -35,6 +53,11 @@ namespace Modell
             population[population.Count - 1].gluckRadSektorGross = 1; //besser wegen float can sein 0,999999999 statt 1, und rand can 1 sein
         }
 
+        /// <summary>
+        /// Es wählt ein Individuum mit der Glückradswahl Methode
+        /// </summary>
+        /// <param name="population">Liste von sudokus</param>
+        /// <returns>Index in Liste</returns>
         public int RouletteSelektion(List<Sudoku> population)
         {
             populationTotalFitnessRechnen(population);
@@ -49,6 +72,12 @@ namespace Modell
         }
 
         //deterministic, wenn ich will probabilistic, replace mit <
+        /// <summary>
+        /// Deterministische turnier Selektion
+        /// </summary>
+        /// <param name="nummerTeilnehmer">Anzahl Teilnehmer in Turnier</param>
+        /// <param name="population">Liste von sudokus</param>
+        /// <returns>Index in Liste</returns>
         public int turnierSelektion(int nummerTeilnehmer, List<Sudoku> population)
         {                
             int beste = randomPosPopulation(population.Count);
@@ -65,22 +94,44 @@ namespace Modell
             return beste;
         }
 
+        /// <summary>
+        /// Gebt ein random Position in eine population, zwischen ein Rang
+        /// </summary>
+        /// <param name="elite">Untere Grenze</param>
+        /// <param name="grossPopulation">Gross Liste sudokus</param>
+        /// <returns>Random Index</returns>
         public int randomPosLoeschenElite(int elite, int grossPopulation)
         {
             return rand.Next(elite, grossPopulation - 1);
         }
 
+        /// <summary>
+        /// Gebt ein random Position in Eine Population
+        /// </summary>
+        /// <param name="grossPopulation">Gross Liste sudokus</param>
+        /// <returns></returns>
         public int randomPosPopulation(int grossPopulation)
         {
             return rand.Next(0, grossPopulation - 1);
         }
 
+        /// <summary>
+        /// Gebt ein Random Wert
+        /// </summary>
+        /// <param name="gering">Untere Grenze</param>
+        /// <param name="hoch">Obere Grenze</param>
+        /// <returns>Random Zahl</returns>
         public int randomZahl(int gering, int hoch)
         {
             return rand.Next(gering, hoch);
         }
 
-        //Round robin für die Positionen in den Chromosomen
+        
+        /// <summary>
+        /// Round robin für die Positionen in den Chromosomen
+        /// </summary>
+        /// <param name="p">Aktuelle Position</param>
+        /// <returns></returns>
         public int nachstePos(int p)
         {
             if (p == 8)
@@ -89,8 +140,13 @@ namespace Modell
                 return ++p;//ich hatte einen Fehler, es muss ++p sein, p++ erst gebt das Resultat und dann erhoht p
         }
 
-        /*es fuellt ein chromosom nach dem Zufallsprinzip mit alle die andere Zahlen, damit es alle Zhale 
-         * von 1 bis 9 hat*/
+
+        /// <summary>
+        /// Es fuellt ein chromosom nach dem Zufallsprinzip mit alle die andere Zahlen, damit es alle Zahle 
+        /// von 1 bis 9 hat
+        /// </summary>
+        /// <param name="cr">Zeile eines Sudokus mit Leere Positionen in 0</param>
+        /// <returns>Neue Zeile mit den 9 Werte</returns>
         public String fuellenChromosomRand(String cr)
         {
             int[] booleans = new int[9];
@@ -119,7 +175,13 @@ namespace Modell
             return new String(temp);
         }
 
-        //es muss mindestens 2 lehre Plátze geben, sonst müstte Evolution diesen Vorgang nicht benutzen
+        //es muss mindestens 2 lehre Plátze geben, sonst müsste Evolution diesen Vorgang nicht benutzen
+        /// <summary>
+        /// swap 2 Random nicht Feste Werte
+        /// </summary>
+        /// <param name="i">Position Zeile (um in Feste Matrix zu sehen)</param>
+        /// <param name="cr">Aktuelle Zeile</param>
+        /// <returns>Neue Zeile</returns>
         public String mutationSwap(int i, String cr)
         {
             char[] temp = cr.ToCharArray();
@@ -140,6 +202,12 @@ namespace Modell
             return new String(temp);
         }
 
+        /// <summary>
+        /// sucht ob ein Spalte hat ein Wert als Feste
+        /// </summary>
+        /// <param name="sau">Index Spalte in Sudoku</param>
+        /// <param name="nummer">Werte</param>
+        /// <returns>False wenn es schon ist, True wenn es ist</returns>
         public Boolean istSchonInSaule(int sau, char nummer)
         {
             for (int i = 0; i < 9; i++)
@@ -148,6 +216,14 @@ namespace Modell
                 return false;
         }
 
+        /// <summary>
+        /// swap 2 nicht Feste Werte, aber in den nuen Positionen, die Spalte 
+        /// muss nicht diese wert als Feste haben (istSchonInSaule = false)
+        /// </summary>
+        /// <param name="i">Index Spalte</param>
+        /// <param name="cr">Aktuelle Zeile</param>
+        /// <param name="fitnessSaule">Fitness Spalte</param>
+        /// <returns>Neue Zeile</returns>
         public String mutationSwapMitEinschrankung(int i, String cr, int[] fitnessSaule)//mach kein swap, wenn in Ziel schon diese Nummer ist
         {
             char[] temp = cr.ToCharArray();
@@ -177,6 +253,13 @@ namespace Modell
             return new String(temp);
         }
 
+        /// <summary>
+        /// macht swap zwischen 2 Spalte mit weniger als 9 fitness
+        /// </summary>
+        /// <param name="cr">Aktuelle Zeile</param>
+        /// <param name="pos">Index 1 wo Spalte fitness kleiner als 9</param>
+        /// <param name="pos2">Index 2 wo Spalte fitness kleiner als 9</param>
+        /// <returns>Neue Zeile</returns>
         public String mutationSwapOhneNeunFitness(String cr, int pos, int pos2)
         {
             
@@ -190,6 +273,12 @@ namespace Modell
             return new String(temp);
         }
 
+        /// <summary>
+        /// uniform Crossover
+        /// </summary>
+        /// <param name="a">Eltern 1</param>
+        /// <param name="b">Eltern 2</param>
+        /// <returns>Neue Sudokus, kinder</returns>
         public Sudoku[] rekombination2(Sudoku a, Sudoku b)
         {
             Sudoku kindA = new Sudoku(), kindB = new Sudoku();
@@ -216,6 +305,12 @@ namespace Modell
 
         }
 
+        /// <summary>
+        /// 1-Punkt Crossover
+        /// </summary>
+        /// <param name="a">Eltern 1</param>
+        /// <param name="b">Eltern 2</param>
+        /// <returns>Neue Sudokus, kinder</returns>
         public Sudoku[] rekombination1(Sudoku a, Sudoku b)
         {
             Sudoku kindA = new Sudoku(), kindB = new Sudoku();
@@ -245,7 +340,7 @@ namespace Modell
 
         //---------------------------------------------------------------------------------------
         //alle diese vorgange waren für die Stratagie mit Liste von array, ausgeschlossen!!!
-        public int[] randomVariationVector()
+        /*public int[] randomVariationVector()
         {
             int[] rv = new int[9];
             for (int i = 0; i < 9; i++)
@@ -281,6 +376,6 @@ namespace Modell
                 a[i] += b[i];
             }
             return a;
-        }
+        }*/
     }
 }

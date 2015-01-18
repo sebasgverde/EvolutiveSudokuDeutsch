@@ -6,7 +6,8 @@ using System.Text;
 namespace Modell
 {
     /// <summary>
-    /// Haupt class hier haben wir die Definitionen fÜr den ganzen Program
+    /// Haupt class hier haben wir die Definitionen fÜr den ganzen Program, wie die Population sich entwickeln
+    /// und ändern
     /// </summary>
     public class Evolution
     {
@@ -38,18 +39,9 @@ namespace Modell
         int restartTolleranz;
         
         /// <summary>
-        /// 
+        /// Constructor des class, es initialisiert die verschidene Liste, die wir brauchen
         /// </summary>
-        /// <param name="sud">sud in Stringformat</param>
-        /// <param name="popSize">Grösse der erste Population</param>
-        /// <param name="elit">Nummer elites</param>
-        /// <param name="maxGen">Maximun Generationen</param>
-        /// <param name="maxPop"></param>
-        /// <param name="mutChanc"></param>
-        /// <param name="crossovChanc"></param>
-        /// <param name="mutMet"></param>
-        /// <param name="mutRad"></param>
-        /// <param name="crossMet"></param>
+        /// <param name="sud">String </param>
         public Evolution(String sud)
         {
             population = new List<Sudoku>();
@@ -59,6 +51,24 @@ namespace Modell
             serGrundSudStr(sud);
         }
 
+        /// <summary>
+        /// Mit diese Funktion kann die Benutzerschnittstelle alle Parameters des Evolutionäre Algorithmien
+        /// aktualisieren (in laufzeit, was uns ein Dynamische entwicklung erlaubt)
+        /// </summary>
+        /// <param name="popSize">Gross der erste Population</param>
+        /// <param name="elit">Anzahl Elites</param>
+        /// <param name="maxGen">Maximal Generationen</param>
+        /// <param name="maxPop">Maximal Anzahl Individuen in Population</param>
+        /// <param name="mutChanc">Mutationwahrscheinlichkeit, wenn wir ein neues Kinder haben,
+        /// kann es mutiert wird oder nein, es hängt von diesem Parameter</param>
+        /// <param name="crossovChanc">Nach wir 2 Eltern von dem Populationhewählt haben, könenn wir Sie in
+        /// neue Generation einfügen oder ein Crossover zu machen und Ihre Kinder einzufügen, es hängt von diesem Parameter </param>
+        /// <param name="mutMet">0 -> Random swap
+        /// 1 -> Random Swap mit einschränkung
+        /// 2 -> Swap swischen Spalte mit Fitness kleiner als 9</param>
+        /// <param name="mutRad">Wie viele Male machen wir ein Mutation</param>
+        /// <param name="crossMet">0 -> 1-Punkt Crossover
+        /// 1 -> Uniform Crossover</param>
         public void updateParameters(int popSize, int elit, int maxGen, int maxPop, int mutChanc, int crossovChanc, int mutMet, int mutRad, int crossMet)
         {
             populationSize = popSize;
@@ -73,12 +83,22 @@ namespace Modell
             crossoverMethode = crossMet;
         }
 
+        /// <summary>
+        /// aktulisieren Parameters für restart
+        /// </summary>
+        /// <param name="met">0 ->Restart
+        /// 1 -> Nichts
+        /// 2 -> Mutation</param>
+        /// <param name="tolleranz">Wie Viele Generationen ohne verbesserung es kann geben</param>
         public void updateRestart(int met, int tolleranz)
         {
             restartMethode = met;
             restartTolleranz = tolleranz;
         }
 
+        /// <summary>
+        /// abhängig restart Methode, mach die entsprechende Funktion
+        /// </summary>
         public void restartInterface()
         {
             switch (restartMethode)
@@ -98,6 +118,13 @@ namespace Modell
             }
         }
 
+        /// <summary>
+        /// abhängig des Mutation Methode, mach die entsprechende Funktion
+        /// </summary>
+        /// <param name="methode">0 -> Random swap
+        /// 1 -> Random Swap mit einschränkung
+        /// 2 -> Swap swischen Spalte mit Fitness kleiner als 9</param>
+        /// <param name="s">Sudoku, das mutiert werden wird</param>
         public void mutationInterface(int methode, Sudoku s)
         {
             switch (methode)
@@ -118,6 +145,14 @@ namespace Modell
 
         }
 
+        /// <summary>
+        /// abhängig des Crossover Methode, mach die entsprechende Funktion
+        /// </summary>
+        /// <param name="methode">0 -> 1-Punkt Crossover
+        /// 1 -> Uniform Crossover</param>
+        /// <param name="i">Index Eltern 1 in Population Liste</param>
+        /// <param name="j">Index Eltern 2 in Population Liste</param>
+        /// <returns></returns>
         public Sudoku[] crossoverInterface(int methode, int i, int j)
         {
             switch (methode)
@@ -132,11 +167,23 @@ namespace Modell
             }
         }
 
+        /// <summary>
+        /// Fitness des besten Individuums in aktueller Generation
+        /// </summary>
         public int aktuelFit = 0;
+        /// <summary>
+        /// Fitness des besten Individuums in aller Generation
+        /// </summary>
         public int besteFit = 0;
 
+        /// <summary>
+        /// Wie Viele Generationen ohne verbesserung es geben kann
+        /// </summary>
         public int generationenOhneVerbesserung = 0;
 
+        /// <summary>
+        /// Hier die erste Population erschafft wird und die Control Parameters initialisiert werden
+        /// </summary>
         public void start()
         {
             generationIndex = 0;
@@ -150,6 +197,10 @@ namespace Modell
             generationenOhneVerbesserung = 0;
         }
 
+        /// <summary>
+        /// Mit diese Funktion kann die Benutzerschnittstelle machen, dass das Program bis ende weitergehen
+        /// </summary>
+        /// <returns>Beste Individuum, Fitness und Generaion Information in String Format</returns>
         public String weiterGehenBisEnde()
         {
             while (aktuelFit < zielFitness && generationIndex < maxGenerations)
@@ -163,7 +214,13 @@ namespace Modell
 
             return getBesteSudPop();
         }
-
+       
+        /// <summary>
+        /// Mit diese Funktion kann die Benutzerschnittstelle machen, dass die Population "shritte" Male sich 
+        /// entwickeln
+        /// </summary>
+        /// <param name="shritte">Generationen um weiterzugehen</param>
+        /// <returns>Beste Individuum, Fitness und Generaion Information in String Format</returns>
         public String weiterGehenNSchritte(int shritte)
         {
             int i = 0;
@@ -179,12 +236,20 @@ namespace Modell
             return getBesteSudPop();
         }
 
+        /// <summary>
+        /// das beste individuum kann in Population oder in Elites Liste sein, diese Funktion sucht, welche
+        /// die Beste Fitness hat
+        /// </summary>
+        /// <returns>Beste Individuum, Fitness und Generaion Information in String Format</returns>
         public string getBesteSudPop()
         {
             Sudoku retSud = population[0].fitness > elites[0].fitness ? population[0] : elites[0];
             return (retSud.sudToString() + schauFitness(retSud) + "\nGeneration Nummer: " + generationIndex);
         }
 
+        /// <summary>
+        /// 1 neue Generation entwickeln (hier ist das haupt Evolutionäre Methode,selektion, operatoren und fitness)
+        /// </summary>
         public void shrittEvol()
         {
             //elites.Add(population[0]);
@@ -249,6 +314,11 @@ namespace Modell
             }
             return a;
         }
+
+        /// <summary>
+        /// Macht ein String mit dem Fitness von jedem Individuum in Population
+        /// </summary>
+        /// <returns></returns>
         public String printFitnesPop()
         {
             String ind = "";
@@ -262,7 +332,15 @@ namespace Modell
             return ind + "\n";
         }
 
+        /// <summary>
+        /// Liste mit beste Fitness jeder Generation
+        /// </summary>
         public List<int> fitnesGeneration = new List<int>();
+
+        /// <summary>
+        /// Macht ein String mit dem Fitness von jedem besten Individuum jeder Generation
+        /// </summary>
+        /// <returns></returns>
         public String printFitnessGenerationen()
         {
             String ind = "";
@@ -275,6 +353,12 @@ namespace Modell
             return ind + "\n";
         }
 
+        /// <summary>
+        /// Macht ein String mit dem total Fitness, total chromosm Fitness, total sub matrix Fitness, fitness
+        /// jeder Zeile unf fitness jedes Sub Matrix
+        /// </summary>
+        /// <param name="sud">Sudoku, dessen Fitness wir sehen möchten</param>
+        /// <returns></returns>
         public String schauFitness(Sudoku sud)
         {
             String ret = "";
@@ -298,6 +382,9 @@ namespace Modell
             return ret;
         }
 
+        /// <summary>
+        /// Mutation viele individuen in Population (für lokales Maximum)
+        /// </summary>
         public void superMutation()
         {
             int j = 0;
@@ -308,6 +395,11 @@ namespace Modell
                 else j=i;
         }
 
+        /// <summary>
+        /// abhängig fall erschafft es eine neue population oder benutzt die beste 
+        /// individuen von andere Generationen
+        /// </summary>
+        /// <param name="fall">wie das restart machen</param>
         public void restart(int fall)
         {
             //if (elites.Count > 1 && elites[0].fitness == elites[1].fitness)
@@ -333,27 +425,11 @@ namespace Modell
             }
 
         }
-        public void aufwiedersehenBeste()
-        {
-            int fit = population[0].fitness;
-            
-            /*while (population[1].fitness == fit)
-            {
-                population.RemoveAt(0);
-            }*/
-            int i = 0;
-            
-            while (i < population.Count - 1)
-            {
-                fit = population[i].fitness;
-                while (i + 1 < population.Count && population[i + 1].fitness == fit)
-                {
-                    population.RemoveAt(i);
-                }
-                i++;
-            }
-        }
-
+        
+        /// <summary>
+        /// es rechnet die Fitness für ein Sudoku
+        /// </summary>
+        /// <param name="sudFit">Ein sudoku, um Fitness zu rechnen</param>
         public void rechnenFitnessSudoku(Sudoku sudFit)
         {
             int fitTotalChrom = 0;
@@ -386,6 +462,10 @@ namespace Modell
             if (print) schauFitness(sudFit);
         }
 
+        /// <summary>
+        /// es erschafft ein erste Sudoku mit der Eingabe von GUI
+        /// </summary>
+        /// <param name="sud">Sudoku wie ein String un 0s in Leere Positionen</param>
         public void serGrundSudStr(String sud)
         {
             string[] array = sud.Replace("\r\n", "\n").Split('\n');
@@ -395,6 +475,11 @@ namespace Modell
 
         }
 
+        /// <summary>
+        /// ein neues Sudoku in ein Liste einfügen, abhängig Fitness
+        /// </summary>
+        /// <param name="sud">ein Sudoku</param>
+        /// <param name="population">in Welcher Liste</param>
         public void einfugenInviduum(Sudoku sud, List<Sudoku> population)//ich benutze auch um die generation index zu stellen
         {
             sud.generation = generationIndex;
@@ -405,9 +490,13 @@ namespace Modell
             population.Insert(i, sud);
         }
 
-        //diese habe ich aun verandert, weil ich habe bemerkt, dass es sinnlos ist alle random machen,
-        //wir wissen, dass es nur 9 nummer gibt, deshalb, die erste population musste nur das haben, und mutation
-        //und recombination muestte nur fue die Reihenfolge sein
+
+        /// <summary>
+        ///diese habe ich aun verandert, weil ich habe bemerkt, dass es sinnlos ist alle random machen,
+        ///wir wissen, dass es nur 9 nummer gibt, deshalb, die erste population musste nur das haben, und mutation
+        ///und recombination muestte nur fue die Reihenfolge sein
+        /// </summary>
+        /// <param name="size">Gróss erste Population</param>
         public void erstePoblation(int size)
         {
             for(int i = 0; i < size; i++)
@@ -428,6 +517,11 @@ namespace Modell
             }
         }
 
+        /// <summary>
+        /// sucht ein Random position zwischen 0 und 8, dann in
+        /// diese Zeiele swap 2 nicht Feste Werte, und macht das nochmals, "mutation Radius" Male
+        /// </summary>
+        /// <param name="s">Sudokus, das mutiert wird</param>
         public void mutationSwap(Sudoku s)
         {
             for (int i = 0; i < mutationRadius; i++)
@@ -439,8 +533,12 @@ namespace Modell
             rechnenFitnessSudoku(s);
         }
 
-        //Andere Strategie, die mutation gebt ein neues kind
-
+        /// <summary>
+        /// sucht ein Random position zwischen 0 und 8, dann in
+        /// diese Zeile swap 2 nicht Feste Werte, aber in den nuen Positionen, die Spalte 
+        /// muss nicht diese wert als Feste haben, und macht das nochmals, "mutation Radius" Male
+        /// </summary>
+        /// <param name="s">Sudokus, das mutiert wird</param>
         public void MutationSwapMitEinschrankung(Sudoku s)
         {
           
@@ -452,7 +550,11 @@ namespace Modell
             rechnenFitnessSudoku(s);
         }
 
-        public void mutationSwapOhneNeunFitness(Sudoku su)//mach swap zwischen 2 saule mit weniger als 9 fitness
+        /// <summary>
+        /// es macht swap zwischen 2 saule mit weniger als 9 fitness
+        /// </summary>
+        /// <param name="su">Sudokus, das mutiert wird</param>
+        public void mutationSwapOhneNeunFitness(Sudoku su)
          {
              //2 Saule ohne 9 fitness
              List<int> saulePos = new List<int>();
@@ -469,6 +571,12 @@ namespace Modell
              rechnenFitnessSudoku(su);
         }
 
+        /// <summary>
+        /// 1-Punkt Crossover
+        /// </summary>
+        /// <param name="i">Index Eltern 1</param>
+        /// <param name="j">Index Eltern 2</param>
+        /// <returns>Liste mit 2 Neue Sudokus (Kinder)</returns>
         public Sudoku[] einfachRekombination(int i, int j)
         {
             Sudoku[] kinder = natur.rekombination1(population[i], population[j]);
@@ -481,6 +589,12 @@ namespace Modell
             return kinder;
         }
 
+        /// <summary>
+        /// Uniform Crossover
+        /// </summary>
+        /// <param name="i">Index Eltern 1</param>
+        /// <param name="j">Index Eltern 2</param>
+        /// <returns>Liste mit 2 Neue Sudokus (Kinder)</returns>
         public Sudoku[] rekombinationVieleOrte(int i, int j)
         {
             Sudoku[] kinder = natur.rekombination2(population[i], population[j]);
@@ -494,17 +608,27 @@ namespace Modell
         }
 
         //gebt die Position von die beste sudoku
-        public int selektion()
+        /*public int selektion()
         {
             return natur.randomPosLoeschenElite(elite - 1, population.Count - 1);
-        }
+        }*/
 
+        /// <summary>
+        /// /// aktulisieren Parameters für Selektion
+        /// </summary>
+        /// <param name="selM">0 ->Turnierauswahl
+        /// 1 -> Glücksradauswahl</param>
+        /// <param name="turnTeil">Teilnehmer in Turnier</param>
         public void selektionUpdate(int selM, int turnTeil)
         {
             selektionMethode = selM;
             turnierTeilnhemer = turnTeil;
         }
 
+        /// <summary>
+        /// abhängig Selektion Methode, mach die entsprechende Funktion
+        /// </summary>
+        /// <returns></returns>
         public int selektionInterface()
         {
             switch (selektionMethode)
@@ -518,6 +642,11 @@ namespace Modell
             }
         }
 
+        /// <summary>
+        /// es wähle 2 Eltern von Population, die erste ist ganz Random, die Zweite hängt von
+        /// Selektion Methode
+        /// </summary>
+        /// <returns>Array mit die positionen von die Eltern in Population Liste</returns>
         public int[] selektionRekombination()
         {
 
@@ -539,6 +668,7 @@ namespace Modell
 
         //------------------------------------------------------------------------------------------
         //i pos in population, welche sudoku will ich andern
+       /*
         public void kleinerMutationSwap(Sudoku s)//vielleicht andern alle chromosom ist sehr viel, nur eins könnte besser sein
         {
             int j = natur.randomPosLoeschenElite(0, 9);
@@ -573,7 +703,7 @@ namespace Modell
         /*diese methoden waren eine schlechte architektur, mutation muss nur ein sudoku verandern, es muss
         void sein, ich muss wenn es call entscheiden ob es + oder coma estrategie ist*/
 
-        public void teilMutationSwapNueKind(int i)
+      /*  public void teilMutationSwapNueKind(int i)
         {
             Sudoku temp = new Sudoku();
 
@@ -624,6 +754,6 @@ namespace Modell
                 j++;
             }
         }
-
+        */
     }
 }
