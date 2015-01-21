@@ -74,10 +74,11 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.restartGeneTxt = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
             this.methodeRestCB = new System.Windows.Forms.ComboBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.restartGeneTxt = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -137,15 +138,15 @@
             this.groupBox1.Controls.Add(this.popSizTxt);
             this.groupBox1.Location = new System.Drawing.Point(35, 93);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(216, 229);
+            this.groupBox1.Size = new System.Drawing.Size(207, 229);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Parameters";
+            this.groupBox1.Text = "Allgemeine Parameters";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(170, 165);
+            this.label8.Location = new System.Drawing.Point(186, 165);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(15, 13);
             this.label8.TabIndex = 13;
@@ -154,7 +155,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(170, 139);
+            this.label7.Location = new System.Drawing.Point(186, 139);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(15, 13);
             this.label7.TabIndex = 12;
@@ -207,9 +208,9 @@
             // 
             // maxPopTxt
             // 
-            this.maxPopTxt.Location = new System.Drawing.Point(110, 110);
+            this.maxPopTxt.Location = new System.Drawing.Point(132, 110);
             this.maxPopTxt.Name = "maxPopTxt";
-            this.maxPopTxt.Size = new System.Drawing.Size(100, 20);
+            this.maxPopTxt.Size = new System.Drawing.Size(69, 20);
             this.maxPopTxt.TabIndex = 6;
             this.maxPopTxt.Text = "1500";
             this.maxPopTxt.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
@@ -225,9 +226,9 @@
             // 
             // maxGenTxt
             // 
-            this.maxGenTxt.Location = new System.Drawing.Point(110, 84);
+            this.maxGenTxt.Location = new System.Drawing.Point(132, 84);
             this.maxGenTxt.Name = "maxGenTxt";
-            this.maxGenTxt.Size = new System.Drawing.Size(100, 20);
+            this.maxGenTxt.Size = new System.Drawing.Size(69, 20);
             this.maxGenTxt.TabIndex = 4;
             this.maxGenTxt.Text = "500";
             this.maxGenTxt.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
@@ -237,15 +238,15 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 61);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 13);
+            this.label2.Size = new System.Drawing.Size(69, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "Elites";
+            this.label2.Text = "Elites Restart";
             // 
             // eliteTxt
             // 
-            this.eliteTxt.Location = new System.Drawing.Point(110, 58);
+            this.eliteTxt.Location = new System.Drawing.Point(132, 58);
             this.eliteTxt.Name = "eliteTxt";
-            this.eliteTxt.Size = new System.Drawing.Size(100, 20);
+            this.eliteTxt.Size = new System.Drawing.Size(69, 20);
             this.eliteTxt.TabIndex = 2;
             this.eliteTxt.Text = "150";
             this.eliteTxt.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
@@ -255,15 +256,15 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 35);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(93, 13);
+            this.label1.Size = new System.Drawing.Size(120, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Population Grösse";
+            this.label1.Text = "Erste Population Grösse";
             // 
             // popSizTxt
             // 
-            this.popSizTxt.Location = new System.Drawing.Point(110, 32);
+            this.popSizTxt.Location = new System.Drawing.Point(132, 32);
             this.popSizTxt.Name = "popSizTxt";
-            this.popSizTxt.Size = new System.Drawing.Size(100, 20);
+            this.popSizTxt.Size = new System.Drawing.Size(69, 20);
             this.popSizTxt.TabIndex = 0;
             this.popSizTxt.Text = "1500";
             this.popSizTxt.TextChanged += new System.EventHandler(this.popSizTxt_TextChanged);
@@ -290,9 +291,9 @@
             // 
             this.mutMethodCB.FormattingEnabled = true;
             this.mutMethodCB.Items.AddRange(new object[] {
-            "normal",
-            "Einschrankung",
-            "ohne 9"});
+            "Random Swap",
+            "Mit Einschrankung",
+            "Ohne 9 Fitness"});
             this.mutMethodCB.Location = new System.Drawing.Point(67, 22);
             this.mutMethodCB.Name = "mutMethodCB";
             this.mutMethodCB.Size = new System.Drawing.Size(143, 21);
@@ -455,9 +456,9 @@
             // 
             // shritteTxt
             // 
-            this.shritteTxt.Location = new System.Drawing.Point(584, 2);
+            this.shritteTxt.Location = new System.Drawing.Point(651, 2);
             this.shritteTxt.Name = "shritteTxt";
-            this.shritteTxt.Size = new System.Drawing.Size(100, 20);
+            this.shritteTxt.Size = new System.Drawing.Size(45, 20);
             this.shritteTxt.TabIndex = 24;
             this.shritteTxt.Text = "1";
             // 
@@ -525,23 +526,18 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Lakales Maximum";
             // 
-            // label14
+            // methodeRestCB
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(53, 29);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(33, 13);
-            this.label14.TabIndex = 15;
-            this.label14.Text = "Nach";
-            // 
-            // restartGeneTxt
-            // 
-            this.restartGeneTxt.Location = new System.Drawing.Point(92, 29);
-            this.restartGeneTxt.Name = "restartGeneTxt";
-            this.restartGeneTxt.Size = new System.Drawing.Size(31, 20);
-            this.restartGeneTxt.TabIndex = 21;
-            this.restartGeneTxt.Text = "15";
-            this.restartGeneTxt.TextChanged += new System.EventHandler(this.methodeRestCB_TextChanged);
+            this.methodeRestCB.FormattingEnabled = true;
+            this.methodeRestCB.Items.AddRange(new object[] {
+            "Restart",
+            "Nichts machen",
+            "Mutation machen"});
+            this.methodeRestCB.Location = new System.Drawing.Point(56, 55);
+            this.methodeRestCB.Name = "methodeRestCB";
+            this.methodeRestCB.Size = new System.Drawing.Size(143, 21);
+            this.methodeRestCB.TabIndex = 23;
+            this.methodeRestCB.TextChanged += new System.EventHandler(this.methodeRestCB_TextChanged);
             // 
             // label16
             // 
@@ -552,24 +548,39 @@
             this.label16.TabIndex = 22;
             this.label16.Text = "Generationen";
             // 
-            // methodeRestCB
+            // restartGeneTxt
             // 
-            this.methodeRestCB.FormattingEnabled = true;
-            this.methodeRestCB.Items.AddRange(new object[] {
-            "Restart",
-            "Nichts",
-            "Mutation"});
-            this.methodeRestCB.Location = new System.Drawing.Point(56, 55);
-            this.methodeRestCB.Name = "methodeRestCB";
-            this.methodeRestCB.Size = new System.Drawing.Size(143, 21);
-            this.methodeRestCB.TabIndex = 23;
-            this.methodeRestCB.TextChanged += new System.EventHandler(this.methodeRestCB_TextChanged);
+            this.restartGeneTxt.Location = new System.Drawing.Point(92, 29);
+            this.restartGeneTxt.Name = "restartGeneTxt";
+            this.restartGeneTxt.Size = new System.Drawing.Size(31, 20);
+            this.restartGeneTxt.TabIndex = 21;
+            this.restartGeneTxt.Text = "15";
+            this.restartGeneTxt.TextChanged += new System.EventHandler(this.methodeRestCB_TextChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(53, 29);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(33, 13);
+            this.label14.TabIndex = 15;
+            this.label14.Text = "Nach";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(597, 5);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(43, 13);
+            this.label15.TabIndex = 28;
+            this.label15.Text = "Schritte";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 621);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.shritteTxt);
@@ -655,6 +666,7 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox restartGeneTxt;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
     }
 }
 

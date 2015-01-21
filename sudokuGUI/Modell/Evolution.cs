@@ -104,7 +104,8 @@ namespace Modell
             switch (restartMethode)
             {
                 case 0:
-                    restart(1);
+                    if (elites.Count > elite) restart(0);
+                    else restart(1);
                     break;
                 case 1:
                     //nichts
@@ -408,13 +409,14 @@ namespace Modell
 
             if (fall == 0)
             {
+                population.Clear();
                 foreach (Sudoku s in elites)
                 {
-                    population.Clear();
                     Sudoku n = new Sudoku(s.sudokuStr);
                     rechnenFitnessSudoku(n);
                     einfugenInviduum(n,population);
                 }
+                elites.Clear();einfugenInviduum(population[0], elites);
                 populationSize = population.Count;
             }
             else
