@@ -17,26 +17,26 @@ namespace Modell
         Sudoku grundSudoku;
         Fitness fitn;
         Natur natur;
-        int populationSize = 3000;
+        int populationSize = 1500;
         int elite = 150;
-        int maxGenerations = 500;
-        int maxPopulation = 3000;
+        int maxGenerations = 200;
+        int maxPopulation = 1500;
         int zielFitness = 162;
         int mutationChance = 5;//%
         int crossoverChance = 50;
         bool print = false;
         int generationIndex = 0;
 
-        int mutationMethode;
-        int mutationRadius;
-        
-        int crossoverMethode;
+        int mutationMethode = 0;
+        int mutationRadius = 1;
 
-        int selektionMethode;
-        int turnierTeilnhemer;
+        int crossoverMethode = 1;
 
-        int restartMethode;
-        int restartTolleranz;
+        int selektionMethode = 0;
+        int turnierTeilnhemer = 15;
+
+        int restartMethode = 0;
+        int restartTolleranz = 15;
         
         /// <summary>
         /// Constructor des class, es initialisiert die verschidene Liste, die wir brauchen
@@ -298,6 +298,8 @@ namespace Modell
             fitnesGeneration.Add(aktuelFit);
             generationIndex++;
         }
+
+
 
         /// <summary>
         /// Macht ein String mit die Sudokus in Fitness Array, diese sind die beste von jeder Versuch
