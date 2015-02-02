@@ -27,7 +27,7 @@ namespace sudokuGUI
             String sud = sudtxt.Text;
             evo = new Evolution(sud);
 
-            mutMethodCB.SelectedIndex = 0;
+            mutMethodCB.SelectedIndex = 1;
             crossMetCB.SelectedIndex = 1;
             selMethoCB.SelectedIndex = 0;
             methodeRestCB.SelectedIndex = 0;
