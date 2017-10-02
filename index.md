@@ -6,6 +6,13 @@ You can use the [editor on GitHub](https://github.com/sebasgverde/EvolutiveSudok
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
+![Image example](http://sebasgverde.github.io/EvolutiveSudoku/images/1.png)
+![Image example](http://sebasgverde.github.io/EvolutiveSudoku/images/2.png)
+![Image example](http://sebasgverde.github.io/EvolutiveSudoku/images/3.png)
+![Image example](http://sebasgverde.github.io/EvolutiveSudoku/images/4.png)
+![Image example](http://sebasgverde.github.io/EvolutiveSudoku/images/5.png)
+![Image example](http://sebasgverde.github.io/EvolutiveSudoku/images/6.png)
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
