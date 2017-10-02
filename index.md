@@ -1,4 +1,6 @@
-## Welcome to GitHub Pages
+## Evolutive sudoku
+
+A project to understand the concepts og evolutive algorithms using the sudoku as study case
 
 You can use the [editor on GitHub](https://github.com/sebasgverde/EvolutiveSudoku/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
 
