@@ -9,6 +9,8 @@ sudoku\sudokuGUI\sudokuGUI\bin\Debug\sudokuGUI.exe
 There already are some default inputs but one can use other sudokus, I have some options in the file sudoku/examples.txt 
 
 To create the first generation and start the execution click in "start"
+
+![Image example](http://sebasgverde.github.io/EvolutiveSudoku/Dokumentation/Benutzer%20Doku.pdf)
 ![Image example](http://sebasgverde.github.io/EvolutiveSudoku/images/2.png)
 ![Image example](http://sebasgverde.github.io/EvolutiveSudoku/images/3.png)
 ![Image example](http://sebasgverde.github.io/EvolutiveSudoku/images/4.png)
